@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 // if don't exists returns 0
@@ -8,17 +9,19 @@ int first_odd_frequent_number(vector<int> numbers);
 int main()
 {
   vector<int> numbers;
+  int number;
+  for (int i = 0; cin >> number; i++)
+    numbers.push_back(number);
 
-  for (int i = 0; cin >> numbers[i]; i++)
-    ;
-
-  cout << first_odd_frequent_number(numbers);
+  cout << endl << first_odd_frequent_number(numbers) << endl;
   
   return 0;
 }
 
 int first_odd_frequent_number(vector<int> numbers)
 {
+  sort(numbers.begin(), numbers.end());
+
   int frequency;
   for (int i = 0; i < numbers.size(); i += frequency)
   {
