@@ -13,7 +13,7 @@ void put_code_into_file(ofstream &outFile, char ch);
 
 void encryption(string approach, string key);
 void simple_encryption(string key);
-int encrypt_char_simple(char ch);
+int encrypt_char_simple(string key, char ch_to_encrypt);
 void complicated_encryption(string key);
 
 void decryption(string approach, string key);
@@ -94,7 +94,9 @@ void simple_encryption(string key)
   while (!inFile.eof())
   {
     char ch_to_encrypt = get_char_from_file(inFile);
-    int ecncrypted_ch = encrypt_char_simple(ch_to_encrypt);
+    // if (inFile.eof())
+    //   break;
+    int ecncrypted_ch = encrypt_char_simple(key, ch_to_encrypt);
     put_code_into_file(outFile, ecncrypted_ch);
   }
 
@@ -102,7 +104,7 @@ void simple_encryption(string key)
   outFile.close();
 }
 
-int encrypt_char_simple(char ch)
+int encrypt_char_simple(string key, char ch_to_encrypt)
 {
   return (time(NULL) % 100) + 50;
 }
