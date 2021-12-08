@@ -13,7 +13,7 @@ void put_code_into_file(ofstream &outFile, char ch);
 
 void encryption(string approach, string key);
 void simple_encryption(string key);
-int encrypt_char_simple(string key, char ch_to_encrypt);
+int encrypt_char_simple(string key, char ch_to_encrypt, int ch_pos);
 void complicated_encryption(string key);
 
 void decryption(string approach, string key);
@@ -91,22 +91,25 @@ void simple_encryption(string key)
   if (!inFile.is_open() || !outFile.is_open())
     cout << "Unable to open file(s)" << endl;
 
+  int ch_pos = 0;
   while (true)
   {
     char ch_to_encrypt = get_char_from_file(inFile);
     if (inFile.eof())
       break;
-    int ecncrypted_ch = encrypt_char_simple(key, ch_to_encrypt);
+    int ecncrypted_ch = encrypt_char_simple(key, ch_to_encrypt, ch_pos);
     put_code_into_file(outFile, ecncrypted_ch);
+    ch_pos++;
   }
 
   inFile.close();
   outFile.close();
 }
 
-int encrypt_char_simple(string key, char ch_to_encrypt)
+int encrypt_char_simple(string key, char ch_to_encrypt, int ch_pos)
 {
-  return (time(NULL) % 100) + 50;
+  int encrypted_ch = (int)key[ch_pos % key.size()] + (int)ch_to_encrypt;
+  return encrypted_ch;
 }
 
 void complicated_encryption(string key)
