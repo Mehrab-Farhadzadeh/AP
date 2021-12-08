@@ -49,7 +49,7 @@ void get_files_paths(string &inFilePath, string &outFilePath)
 char get_char_from_file(ifstream &inFile)
 {
   char ch_to_encrypt;
-  inFile >> ch_to_encrypt;
+  inFile.get(ch_to_encrypt);
   return ch_to_encrypt;
 }
 void put_char_into_file(ofstream &outFile, char decrypted_code)
