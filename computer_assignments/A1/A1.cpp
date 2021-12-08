@@ -85,8 +85,9 @@ void simple_encryption(string key)
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
 
-  ofstream outFile(inFilePath);
-  ifstream inFile(outFilePath);
+  ifstream inFile(inFilePath);
+  ofstream outFile(outFilePath);
+
   if (!inFile.is_open() || !outFile.is_open())
     cout << "Unable to open file(s)" << endl;
 
