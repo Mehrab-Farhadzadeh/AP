@@ -91,11 +91,11 @@ void simple_encryption(string key)
   if (!inFile.is_open() || !outFile.is_open())
     cout << "Unable to open file(s)" << endl;
 
-  while (!inFile.eof())
+  while (true)
   {
     char ch_to_encrypt = get_char_from_file(inFile);
-    // if (inFile.eof())
-    //   break;
+    if (inFile.eof())
+      break;
     int ecncrypted_ch = encrypt_char_simple(key, ch_to_encrypt);
     put_code_into_file(outFile, ecncrypted_ch);
   }
