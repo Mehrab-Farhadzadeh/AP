@@ -20,6 +20,7 @@ int encrypt_char_complicated(string key, char ch_to_encrypt, int ch_pos);
 
 void decryption(string approach, string key);
 void simple_decryption(string key);
+char decrypt_code_simple(string key, int code_to_decrypt, int code_pos);
 void complicated_decryption(string key);
 
 int main()
@@ -125,7 +126,6 @@ void complicated_encryption(string key)
     if (inFile.eof())
       break;
     int ecncrypted_ch = encrypt_char_complicated(key, ch_to_encrypt, ch_pos);
-    // cout << rand() % 11 << endl;
     put_code_into_file(outFile, ecncrypted_ch);
     ch_pos++;
   }
@@ -158,7 +158,36 @@ void decryption(string approach, string key)
 
 void simple_decryption(string key)
 {
+  string inFilePath, outFilePath;
+  get_files_paths(inFilePath, outFilePath);
+
+  ifstream inFile(inFilePath);
+  ofstream outFile(outFilePath);
+
+  if (!inFile.is_open() || !outFile.is_open())
+    cout << "Unable to open file(s)" << endl;
+
+  int code_pos = 0;
+  while (true)
+  {
+    int code_to_decrypt = get_code_from_file(inFile);
+    if (inFile.eof())
+      break;
+    char decrypted_code = decrypt_code_simple(key, code_to_decrypt, code_pos);
+    put_char_into_file(outFile, decrypted_code);
+    code_pos++;
+  }
+
+  inFile.close();
+  outFile.close();
 }
+
+char decrypt_code_simple(string key, int code_to_decrypt, int code_pos)
+{
+  char decrypted_code = code_to_decrypt - (int)key[code_pos % key.size()];
+  return decrypted_code;
+}
+
 void complicated_decryption(string key)
 {
 }
