@@ -6,8 +6,8 @@ using namespace std;
 
 void get_request_info(string &mode, string &approach, string &key);
 void get_files_paths(string &inFilePath, string &outFilePath);
-char get_char_from_file(ifstream inFile);
-char put_char_into_file(ofstream outFile, char ch);
+char get_char_from_file(ifstream &inFile);
+char put_char_into_file(ofstream &outFile, char ch);
 
 void encryption(string approach, string key);
 void simple_encryption(string key);
@@ -42,6 +42,15 @@ void get_files_paths(string &inFilePath, string &outFilePath)
   cin >> inFilePath >> outFilePath;
 }
 
+char get_char_from_file(ifstream &inFile)
+{
+
+}
+char put_char_into_file(ofstream &outFile, char ch)
+{
+
+}
+
 void encryption(string approach, string key)
 {
   if (approach == "simple")
@@ -62,16 +71,19 @@ void simple_encryption(string key)
 {
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
-
-  ofstream outFile;
-  ifstream inFile;
-  inFile.open(inFilePath);
-  outFile.open(outFilePath);
+  
+  ofstream outFile (inFilePath);
+  ifstream inFile (outFilePath);
 
   char ch = get_char_from_file(inFile);
   int ecncrypted_ch = encrypt_char_simple(ch);
   put_char_into_file(outFile, (char)ecncrypted_ch);
 }
+int encrypt_char_simple(char ch)
+{
+
+}
+
 void complicated_encryption(string key)
 {
 
