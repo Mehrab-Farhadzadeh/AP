@@ -7,7 +7,9 @@ using namespace std;
 void get_request_info(string &mode, string &approach, string &key);
 void get_files_paths(string &inFilePath, string &outFilePath);
 char get_char_from_file(ifstream &inFile);
-char put_char_into_file(ofstream &outFile, char ch);
+void put_char_into_file(ofstream &outFile, char decrypted_code);
+int get_code_from_file(ifstream &inFile);
+void put_code_into_file(ofstream &outFile, char ch);
 
 void encryption(string approach, string key);
 void simple_encryption(string key);
@@ -41,14 +43,25 @@ void get_files_paths(string &inFilePath, string &outFilePath)
 {
   cin >> inFilePath >> outFilePath;
 }
-
 char get_char_from_file(ifstream &inFile)
 {
-
+  char ch_to_encrypt;
+  inFile >> ch_to_encrypt;
+  return ch_to_encrypt;
 }
-char put_char_into_file(ofstream &outFile, char ch)
+void put_char_into_file(ofstream &outFile, char decrypted_code)
 {
-
+  outFile << decrypted_code;
+}
+int get_code_from_file(ifstream &inFile)
+{
+  int code;
+  inFile >> code;
+  return code;
+}
+void put_code_into_file(ofstream &outFile, int code)
+{
+  outFile << code << endl;
 }
 
 void encryption(string approach, string key)
@@ -71,17 +84,26 @@ void simple_encryption(string key)
 {
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
-  
-  ofstream outFile (inFilePath);
-  ifstream inFile (outFilePath);
 
-  char ch = get_char_from_file(inFile);
-  int ecncrypted_ch = encrypt_char_simple(ch);
-  put_char_into_file(outFile, (char)ecncrypted_ch);
+  ofstream outFile(inFilePath);
+  ifstream inFile(outFilePath);
+  if (!inFile.is_open() || !outFile.is_open())
+    cout << "Unable to open file(s)" << endl;
+
+  while (!inFile.eof())
+  {
+    char ch_to_encrypt = get_char_from_file(inFile);
+    int ecncrypted_ch = encrypt_char_simple(ch_to_encrypt);
+    put_code_into_file(outFile, ecncrypted_ch);
+  }
+
+  inFile.close();
+  outFile.close();
 }
+
 int encrypt_char_simple(char ch)
 {
-
+  return (time(NULL) % 100) + 50;
 }
 
 void complicated_encryption(string key)
