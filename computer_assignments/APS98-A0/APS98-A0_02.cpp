@@ -43,11 +43,18 @@ bool is_charkheshi(string num_str)
       is_seen[next_digit_pos] = true;
   }
 
+  return is_all_seen_once(is_seen);
 }
 
 bool is_all_seen_once(vector<bool> is_seen)
 {
-
+  int size = is_seen.size();
+  for (int state = 0; state < size; state++)
+  {
+    if (!is_seen[state])
+      return false;
+  }
+  return true;
 }
 
 void print_result(bool result)
