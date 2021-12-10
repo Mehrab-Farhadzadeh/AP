@@ -30,7 +30,7 @@ int main()
 
 string ibm_minus_one(string str)
 {
-  for (int i = 0; i < str.size(); i++)
+  for (int i = 0; i < (int)str.size(); i++)
   {
     str[i] != 'Z' ? str[i] = str[i] + 1 : str[i] = 'A';
   }
