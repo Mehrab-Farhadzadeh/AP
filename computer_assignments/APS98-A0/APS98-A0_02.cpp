@@ -4,6 +4,7 @@ using namespace std;
 
 int ch_to_digit(char ch);
 bool is_charkheshi(string num_str);
+bool is_all_seen_once(vector<bool> is_seen);
 void print_result(bool result);
 
 int main()
@@ -29,6 +30,24 @@ int ch_to_digit(char ch)
 
 bool is_charkheshi(string num_str)
 {
+  int size = num_str.size();
+  vector<bool> is_seen(size, false);
+  int next_digit_pos = 0;
+  while (true)
+  {
+    int digit = ch_to_digit(num_str[next_digit_pos]);
+    next_digit_pos = size % digit;
+    if (is_seen[next_digit_pos])
+      break;
+    else
+      is_seen[next_digit_pos] = true;
+  }
+
+}
+
+bool is_all_seen_once(vector<bool> is_seen)
+{
+
 }
 
 void print_result(bool result)
