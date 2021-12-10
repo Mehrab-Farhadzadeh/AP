@@ -36,7 +36,7 @@ bool is_charkheshi(string num_str)
   while (true)
   {
     int digit = ch_to_digit(num_str[next_digit_pos]);
-    next_digit_pos = size % digit;
+    next_digit_pos = (next_digit_pos + digit) % size;
     if (is_seen[next_digit_pos])
       break;
     else
