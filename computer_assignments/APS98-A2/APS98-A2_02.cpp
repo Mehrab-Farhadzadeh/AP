@@ -20,7 +20,7 @@ int main()
   for (int spaceless_str = 0; spaceless_str < num_of_spaceless_strs; spaceless_str++)
   {
     print_all_sentences(spaceless_strs[spaceless_str]);
-    cout << "***" << endl;
+    cout << endl << "***" << endl;
   }
 
   return 0;
@@ -84,7 +84,7 @@ void print_sentences(string spaceless_str, vector<int> words_locations_on_str)
   for (int char_location = 0, space_location = 0; char_location < (int)spaceless_str.size(); char_location++)
   {
     cout << spaceless_str[char_location];
-    if (char_location == words_locations_on_str[space_location])
+    if ((char_location + 1) == words_locations_on_str[space_location])
     {
       cout << " ";
       space_location++;
