@@ -8,7 +8,7 @@ vector<int> words_locations_on_str;
 
 vector<string> get_spaceless_strs(void);
 void print_all_sentences(string spaceless_str);
-bool sentences(string spaceless_str, int after_this_location);
+void sentences(string spaceless_str, int after_this_location);
 bool is_meaningful(string spaceless_strs, int after_this_location, int end_of_word);
 void print_sentence(string spaceless_str, vector<int> words_locations_on_str);
 
@@ -40,15 +40,14 @@ void print_all_sentences(string spaceless_str)
 {
   words_locations_on_str.clear();
   sentences(spaceless_str, 0);
-  //print_sentence(spaceless_str, words_locations_on_str);
 }
 
-bool sentences(string spaceless_str, int after_this_location)
+void sentences(string spaceless_str, int after_this_location)
 {
   if (after_this_location >= (int)spaceless_str.size())
   {
     print_sentence(spaceless_str, words_locations_on_str);
-    return true;
+    return;
   }
 
   for (int end_of_word = after_this_location + 1; end_of_word <= (int)spaceless_str.size(); end_of_word++)
@@ -60,7 +59,6 @@ bool sentences(string spaceless_str, int after_this_location)
       words_locations_on_str.pop_back();
     }
   }
-  return false;
 }
 
 bool is_meaningful(string spaceless_strs, int after_this_location, int end_of_word)
