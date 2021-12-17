@@ -4,12 +4,13 @@
 #include <fstream>
 using namespace std;
 
-vector<vector<int>> words_locations_on_str;
+vector<int> words_locations_on_str;
 
 vector<string> get_spaceless_strs(void);
 void print_all_sentences(string spaceless_str);
 bool sentences(string spaceless_strs, int after_this_location);
 bool is_meaningful(string spaceless_strs, int after_this_location, int end_of_word);
+void print_sentences(string spaceless_str, vector<int> words_locations_on_str);
 
 int main()
 {
@@ -38,6 +39,7 @@ vector<string> get_spaceless_strs(void)
 void print_all_sentences(string spaceless_str)
 {
   sentences(spaceless_str, 0);
+  print_sentences(spaceless_str, words_locations_on_str);
 }
 
 bool sentences(string spaceless_strs, int after_this_location)
@@ -51,11 +53,7 @@ bool sentences(string spaceless_strs, int after_this_location)
   {
     if (is_meaningful(spaceless_strs, after_this_location, end_of_word))
     {
-      vector<int> loacations;
-      loacations.push_back(after_this_location);
-      loacations.push_back(end_of_word);
-      words_locations_on_str.push_back(loacations);
-
+      words_locations_on_str.push_back(end_of_word);
       if (sentences(spaceless_strs, end_of_word))
         return true;
       words_locations_on_str.pop_back();
@@ -75,8 +73,21 @@ bool is_meaningful(string spaceless_strs, int after_this_location, int end_of_wo
   while (meaningful_words_file >> readed_word)
     if (readed_word == word)
       return true;
-      
+
   meaningful_words_file.close();
 
   return false;
+}
+
+void print_sentences(string spaceless_str, vector<int> words_locations_on_str)
+{
+  for (int char_location = 0, space_location = 0; char_location < (int)spaceless_str.size(); char_location++)
+  {
+    cout << spaceless_str[char_location];
+    if (char_location == words_locations_on_str[space_location])
+    {
+      cout << " ";
+      space_location++;
+    }
+  }
 }
