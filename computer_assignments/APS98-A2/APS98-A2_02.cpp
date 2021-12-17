@@ -38,6 +38,7 @@ vector<string> get_spaceless_strs(void)
 
 void print_all_sentences(string spaceless_str)
 {
+  words_locations_on_str.clear();
   sentences(spaceless_str, 0);
   print_sentences(spaceless_str, words_locations_on_str);
 }
