@@ -84,12 +84,12 @@ void print_sentence(string spaceless_str, vector<int> words_locations_on_str)
 {
   for (int char_location = 0, space_location = 0; char_location < (int)spaceless_str.size(); char_location++)
   {
-    cout << spaceless_str[char_location];
-    if ((char_location + 1) == words_locations_on_str[space_location])
+    if (char_location == words_locations_on_str[space_location])
     {
       cout << " ";
       space_location++;
     }
+    cout << spaceless_str[char_location];
   }
   cout << endl;
 }
