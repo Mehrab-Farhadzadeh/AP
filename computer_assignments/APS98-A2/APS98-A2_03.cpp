@@ -42,3 +42,17 @@ map_t get_map()
 
   return map;
 }
+
+void print_moves()
+{
+  cout << "Insane!" << endl;
+}
+void print_error()
+{
+  cout << "Bad map configuration!" << endl;
+}
+
+bool play(map_t map, Movement movement)
+{
+
+}
