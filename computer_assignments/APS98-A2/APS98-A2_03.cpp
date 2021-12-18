@@ -3,24 +3,32 @@
 #include <string>
 using namespace std;
 
+#define HERO 'o'
+#define EMPTY '#'
+#define ROCK '-'
+#define U 0
+#define R 1
+#define D 2
+#define L 3
+#define DIR_MAX 4
+
 vector<Movement> moves;
 
 struct Movement
 {
   int row;
   int col;
-  char dir;
+  int dir;
 };
 
 typedef vector<string> map_t;
 
 map_t get_map();
-
-bool play(map_t map, Movement movement);
+bool play(map_t map);
 void print_moves();
 void print_error();
-
-bool find_movement(string line, Movement movement);
+bool find_movement(map_t map, int line, Movement &movement);
+bool can_hero_move(map_t map, Movement try_to_move);
 void apply_movement(map_t map, Movement movement);
 void discard_movement(map_t map, Movement movement);
 bool is_there_move(map_t map);
@@ -29,9 +37,8 @@ int lefted_heros(map_t map);
 int main()
 {
   map_t map = get_map();
-  Movement movement;
 
-  if (play(map, movement))
+  if (play(map))
     print_moves();
   else
     print_error();
@@ -58,24 +65,57 @@ void print_error()
   cout << "Bad map configuration!" << endl;
 }
 
-bool play(map_t map, Movement movement)
+bool play(map_t map)
 {
+  Movement movement = {0, 0, -1};
   for (int line = 0; line < (int)map.size(); line++)
   {
-    while(find_movement(map[line], movement))
+    while(find_movement(map, line, movement))
     {
       apply_movement(map, movement);
-      if(play(map, movement))
+      if(play(map))
         return true;
       discard_movement(map, movement);
     }
   }
 
   if (is_there_move(map))
-    play(map, movement);
+    play(map);
 
   if (lefted_heros(map) == 1)
     return true;
 
   return false;
 }
+
+bool find_movement(map_t map, int line, Movement &movement)
+{
+  int line_width = (int)map[line].size();
+
+  for (int col = movement.col; col < line_width; col++)
+  {
+    if(map[line][col] == HERO)
+    {
+      for (int dir = movement.dir + 1; dir < DIR_MAX; dir++)
+      {
+        Movement try_to_move = {movement.row, col, dir};
+        if (can_hero_move(map, try_to_move))
+        {
+          movement = try_to_move;
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+bool can_hero_move(map_t map, Movement try_to_move)
+{
+
+}
+
+void apply_movement(map_t map, Movement movement);
+void discard_movement(map_t map, Movement movement);
+bool is_there_move(map_t map);
+int lefted_heros(map_t map);
