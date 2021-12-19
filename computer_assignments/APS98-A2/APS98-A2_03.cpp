@@ -66,7 +66,7 @@ void print_moves()
 }
 void print_error()
 {
-  cout << "Bad map configuration!" << endl;
+  cerr << "Bad map configuration!" << endl;
 }
 
 bool play(map_t map)
@@ -155,7 +155,42 @@ bool can_hero_move(map_t map, Movement try_to_move)
   return false;
 }
 
-void apply_movement(map_t map, Movement movement);
+void apply_movement(map_t map, Movement movement)
+{
+  switch (movement.dir)
+  {
+  case U:
+    map[movement.row][movement.col] = EMPTY;
+    map[movement.row - 1][movement.col] = EMPTY;
+    map[movement.row - 2][movement.col] = HERO;
+    break;
+
+  case R:
+    map[movement.row][movement.col] = EMPTY;
+    map[movement.row][movement.col + 1] = EMPTY;
+    map[movement.row][movement.col + 2] = HERO;
+    break;
+
+  case D:
+    map[movement.row][movement.col] = EMPTY;
+    map[movement.row + 1][movement.col] = EMPTY;
+    map[movement.row + 2][movement.col] = HERO;
+    break;
+
+  case L:
+    map[movement.row][movement.col] = EMPTY;
+    map[movement.row][movement.col - 1] = EMPTY;
+    map[movement.row][movement.col - 2] = HERO;
+    break;
+
+  default:
+    cerr << "ERROR aplying hero movement!" << endl;
+    cerr << "Unexpted direction." << endl;
+    exit(-1);
+    break;
+  }
+}
+
 void discard_movement(map_t map, Movement movement);
 bool is_there_move(map_t map);
 int lefted_heros(map_t map);
