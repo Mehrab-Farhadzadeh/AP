@@ -11,12 +11,10 @@ using namespace std;
 #define D 2
 #define L 3
 #define DIR_MAX 4
-#define ROW_MAX map.size()
+#define ROW_MAX (int)map.size()
 #define ROW_MIN 0
-#define COL_MAX map[0].size()
+#define COL_MAX (int)map[0].size()
 #define COL_MIN 0
-
-vector<Movement> moves;
 
 struct Movement
 {
@@ -24,6 +22,8 @@ struct Movement
   int col;
   int dir;
 };
+
+vector<Movement> moves;
 
 typedef vector<string> map_t;
 
