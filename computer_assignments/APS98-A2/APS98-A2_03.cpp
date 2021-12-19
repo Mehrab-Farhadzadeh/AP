@@ -31,6 +31,7 @@ map_t get_map();
 bool play(map_t map);
 void print_moves();
 void print_error();
+void print_map(map_t map);
 bool find_movement(map_t map, int line, Movement &movement);
 bool can_hero_move(map_t map, Movement try_to_move);
 void apply_movement(map_t map, Movement movement);
@@ -67,6 +68,14 @@ void print_moves()
 void print_error()
 {
   cerr << "Bad map configuration!" << endl;
+}
+
+void print_map(map_t map)
+{
+  for (int line = 0; line < ROW_MAX; line++)
+  {
+    cout << line << endl;
+  }
 }
 
 bool play(map_t map)
