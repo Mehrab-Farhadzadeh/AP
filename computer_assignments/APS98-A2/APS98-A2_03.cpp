@@ -24,6 +24,7 @@ struct Movement
 };
 
 vector<Movement> moves;
+int map_print_counter = 0;
 
 typedef vector<string> map_t;
 
@@ -34,13 +35,15 @@ void print_error();
 void print_map(map_t map);
 bool find_movement(map_t map, int line, Movement &movement);
 bool can_hero_move(map_t map, Movement try_to_move);
-void apply_movement(map_t map, Movement movement);
-void discard_movement(map_t map, Movement movement);
+void apply_movement(map_t &map, Movement movement);
+void discard_movement(map_t &map, Movement movement);
 bool is_there_move(map_t map);
 int lefted_heros(map_t map);
 
 int main()
 {
+  int row, col;
+  cin >> row >> col;
   map_t map = get_map();
 
   if (play(map))
@@ -67,7 +70,7 @@ void print_moves()
   int num_of_moves = moves.size();
   for (int move = 0; move < num_of_moves; move++)
   {
-    cout << moves[move].row << " " << moves[move].col << " ";
+    cout << moves[move].row + 1 << " " << moves[move].col + 1 << " ";
 
     switch (moves[move].dir)
     {
@@ -86,7 +89,7 @@ void print_moves()
     case L:
       cout << "L" << endl;
       break;
-      
+
     default:
       cerr << "ERROR printing moves!" << endl;
       cerr << "Unexpted direction." << endl;
@@ -102,10 +105,14 @@ void print_error()
 
 void print_map(map_t map)
 {
+  cout << endl
+       << ++map_print_counter << endl;
   for (int line = 0; line < ROW_MAX; line++)
   {
-    cout << line << endl;
+    cout << map[line] << endl;
   }
+  cout << endl;
+  cin.get();
 }
 
 bool play(map_t map)
@@ -116,6 +123,7 @@ bool play(map_t map)
     while (find_movement(map, line, movement))
     {
       apply_movement(map, movement);
+      // print_map(map); // Uncomment to debugging
       if (play(map))
         return true;
       discard_movement(map, movement);
@@ -141,7 +149,7 @@ bool find_movement(map_t map, int line, Movement &movement)
     {
       for (int dir = movement.dir + 1; dir < DIR_MAX; dir++)
       {
-        Movement try_to_move = {movement.row, col, dir};
+        Movement try_to_move = {line, col, dir};
         if (can_hero_move(map, try_to_move))
         {
           movement = try_to_move;
@@ -165,14 +173,14 @@ bool can_hero_move(map_t map, Movement try_to_move)
     break;
 
   case R:
-    if (try_to_move.col + 2 > COL_MAX)
+    if (try_to_move.col + 2 >= COL_MAX)
       break;
     if ((map[try_to_move.row][try_to_move.col + 2] == EMPTY) && (map[try_to_move.row][try_to_move.col + 1] == HERO))
       return true;
     break;
 
   case D:
-    if (try_to_move.row + 2 > ROW_MAX)
+    if (try_to_move.row + 2 >= ROW_MAX)
       break;
     if ((map[try_to_move.row + 2][try_to_move.col] == EMPTY) && (map[try_to_move.row + 1][try_to_move.col] == HERO))
       return true;
@@ -194,7 +202,7 @@ bool can_hero_move(map_t map, Movement try_to_move)
   return false;
 }
 
-void apply_movement(map_t map, Movement movement)
+void apply_movement(map_t &map, Movement movement)
 {
   moves.push_back(movement);
 
@@ -232,7 +240,7 @@ void apply_movement(map_t map, Movement movement)
   }
 }
 
-void discard_movement(map_t map, Movement movement)
+void discard_movement(map_t &map, Movement movement)
 {
   moves.pop_back();
 
