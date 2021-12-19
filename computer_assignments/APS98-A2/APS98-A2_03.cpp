@@ -64,6 +64,36 @@ map_t get_map()
 void print_moves()
 {
   cout << "Insane!" << endl;
+  int num_of_moves = moves.size();
+  for (int move = 0; move < num_of_moves; move++)
+  {
+    cout << moves[move].row << " " << moves[move].col << " ";
+
+    switch (moves[move].dir)
+    {
+    case U:
+      cout << "U" << endl;
+      break;
+
+    case R:
+      cout << "R" << endl;
+      break;
+
+    case D:
+      cout << "D" << endl;
+      break;
+
+    case L:
+      cout << "L" << endl;
+      break;
+      
+    default:
+      cerr << "ERROR printing moves!" << endl;
+      cerr << "Unexpted direction." << endl;
+      exit(-1);
+      break;
+    }
+  }
 }
 void print_error()
 {
@@ -166,6 +196,8 @@ bool can_hero_move(map_t map, Movement try_to_move)
 
 void apply_movement(map_t map, Movement movement)
 {
+  moves.push_back(movement);
+
   switch (movement.dir)
   {
   case U:
@@ -202,6 +234,8 @@ void apply_movement(map_t map, Movement movement)
 
 void discard_movement(map_t map, Movement movement)
 {
+  moves.pop_back();
+
   switch (movement.dir)
   {
   case U:
