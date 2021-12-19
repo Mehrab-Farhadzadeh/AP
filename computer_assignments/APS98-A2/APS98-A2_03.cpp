@@ -229,6 +229,22 @@ void discard_movement(map_t map, Movement movement)
 
 bool is_there_move(map_t map)
 {
-  
+  Movement movement = {0, 0, -1};
+  for (int line = 0; line < ROW_MAX; line++)
+  {
+    if (find_movement(map, line, movement))
+      return true;
+  }
+  return false;
 }
-int lefted_heros(map_t map);
+
+int lefted_heros(map_t map)
+{
+  int num_of_heros = 0;
+  for (int row = 0; row < ROW_MAX; row++)
+    for (int col = 0; col < COL_MAX; col++)
+      if (map[row][col] == HERO)
+        num_of_heros++;
+
+  return num_of_heros;
+}
