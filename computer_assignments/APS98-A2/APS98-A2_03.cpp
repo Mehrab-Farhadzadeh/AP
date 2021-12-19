@@ -191,6 +191,44 @@ void apply_movement(map_t map, Movement movement)
   }
 }
 
-void discard_movement(map_t map, Movement movement);
-bool is_there_move(map_t map);
+void discard_movement(map_t map, Movement movement)
+{
+  switch (movement.dir)
+  {
+  case U:
+    map[movement.row][movement.col] = HERO;
+    map[movement.row - 1][movement.col] = HERO;
+    map[movement.row - 2][movement.col] = EMPTY;
+    break;
+
+  case R:
+    map[movement.row][movement.col] = HERO;
+    map[movement.row][movement.col + 1] = HERO;
+    map[movement.row][movement.col + 2] = EMPTY;
+    break;
+
+  case D:
+    map[movement.row][movement.col] = HERO;
+    map[movement.row + 1][movement.col] = HERO;
+    map[movement.row + 2][movement.col] = EMPTY;
+    break;
+
+  case L:
+    map[movement.row][movement.col] = HERO;
+    map[movement.row][movement.col - 1] = HERO;
+    map[movement.row][movement.col - 2] = EMPTY;
+    break;
+
+  default:
+    cerr << "ERROR discarding hero movement!" << endl;
+    cerr << "Unexpted direction." << endl;
+    exit(-1);
+    break;
+  }
+}
+
+bool is_there_move(map_t map)
+{
+  
+}
 int lefted_heros(map_t map);
