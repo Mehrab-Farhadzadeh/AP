@@ -11,6 +11,10 @@ using namespace std;
 #define D 2
 #define L 3
 #define DIR_MAX 4
+#define ROW_MAX map.size()
+#define ROW_MIN 0
+#define COL_MAX map[0].size()
+#define COL_MIN 0
 
 vector<Movement> moves;
 
@@ -70,10 +74,10 @@ bool play(map_t map)
   Movement movement = {0, 0, -1};
   for (int line = 0; line < (int)map.size(); line++)
   {
-    while(find_movement(map, line, movement))
+    while (find_movement(map, line, movement))
     {
       apply_movement(map, movement);
-      if(play(map))
+      if (play(map))
         return true;
       discard_movement(map, movement);
     }
@@ -94,7 +98,7 @@ bool find_movement(map_t map, int line, Movement &movement)
 
   for (int col = movement.col; col < line_width; col++)
   {
-    if(map[line][col] == HERO)
+    if (map[line][col] == HERO)
     {
       for (int dir = movement.dir + 1; dir < DIR_MAX; dir++)
       {
@@ -112,7 +116,43 @@ bool find_movement(map_t map, int line, Movement &movement)
 
 bool can_hero_move(map_t map, Movement try_to_move)
 {
+  switch (try_to_move.dir)
+  {
+  case U:
+    if (try_to_move.row - 2 < ROW_MIN)
+      break;
+    if ((map[try_to_move.row - 2][try_to_move.col] == EMPTY) && (map[try_to_move.row - 1][try_to_move.col] == HERO))
+      return true;
+    break;
 
+  case R:
+    if (try_to_move.col + 2 > COL_MAX)
+      break;
+    if ((map[try_to_move.row][try_to_move.col + 2] == EMPTY) && (map[try_to_move.row][try_to_move.col + 1] == HERO))
+      return true;
+    break;
+
+  case D:
+    if (try_to_move.row + 2 > ROW_MAX)
+      break;
+    if ((map[try_to_move.row + 2][try_to_move.col] == EMPTY) && (map[try_to_move.row + 1][try_to_move.col] == HERO))
+      return true;
+    break;
+
+  case L:
+    if (try_to_move.col - 2 < COL_MIN)
+      break;
+    if ((map[try_to_move.row][try_to_move.col - 2] == EMPTY) && (map[try_to_move.row][try_to_move.col - 1] == HERO))
+      return true;
+    break;
+
+  default:
+    cerr << "ERROR finding hero movement!" << endl;
+    cerr << "Unexpted direction." << endl;
+    exit(-1);
+    break;
+  }
+  return false;
 }
 
 void apply_movement(map_t map, Movement movement);
