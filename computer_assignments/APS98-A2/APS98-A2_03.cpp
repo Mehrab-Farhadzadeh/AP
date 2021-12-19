@@ -123,15 +123,16 @@ bool play(map_t map)
     while (find_movement(map, line, movement))
     {
       apply_movement(map, movement);
-      // print_map(map); // Uncomment to debugging
+      print_map(map); // Uncomment to debugging
+      print_moves();
       if (play(map))
         return true;
       discard_movement(map, movement);
     }
   }
 
-  if (is_there_move(map))
-    play(map);
+  // if (is_there_move(map))
+  //   play(map);
 
   if (lefted_heros(map) == 1)
     return true;
