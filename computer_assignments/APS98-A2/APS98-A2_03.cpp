@@ -117,6 +117,33 @@ void print_map(map_t map)
 
 bool play(map_t map)
 {
+  if (lefted_heros(map) == 1)
+    return true;
+
+  for (int row = 0; row < ROW_MAX; row++)
+    for (int col = 0; col < COL_MAX; col++)
+      if (map[row][col] == HERO)
+        for (int dir = 0; dir < DIR_MAX; dir++)
+        {
+          Movement movement = {row, col, dir};
+          if (can_hero_move(map, movement))
+          {
+            apply_movement(map, movement);
+            cout << endl << map_print_counter++ << endl;
+            print_moves();
+            bool solved = play(map);
+            discard_movement(map, movement);
+            if (solved)
+              return true;
+            moves.pop_back();
+          }
+        }
+
+  return false;
+}
+
+/*bool play(map_t map)
+{
   Movement movement = {0, 0, -1};
   for (int line = 0; line < (int)map.size(); line++)
   {
@@ -138,7 +165,7 @@ bool play(map_t map)
     return true;
 
   return false;
-}
+}*/
 
 bool find_movement(map_t map, int line, Movement &movement)
 {
@@ -243,7 +270,7 @@ void apply_movement(map_t &map, Movement movement)
 
 void discard_movement(map_t &map, Movement movement)
 {
-  moves.pop_back();
+  // moves.pop_back();
 
   switch (movement.dir)
   {
