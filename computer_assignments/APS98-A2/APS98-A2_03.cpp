@@ -15,6 +15,7 @@ using namespace std;
 #define ROW_MIN 0
 #define COL_MAX (int)map[0].size()
 #define COL_MIN 0
+#define END_POINT 1
 
 struct Movement
 {
@@ -100,7 +101,7 @@ void print_moves()
 }
 void print_error()
 {
-  cerr << "Bad map configuration!" << endl;
+  cout << "Bad map configuration!" << endl;
 }
 
 void print_map(map_t map)
@@ -117,76 +118,33 @@ void print_map(map_t map)
 
 bool play(map_t map)
 {
-  if (lefted_heros(map) == 1)
-    return true;
+  int lefted_heros = 0;
 
   for (int row = 0; row < ROW_MAX; row++)
     for (int col = 0; col < COL_MAX; col++)
-      if (map[row][col] == HERO)
-        for (int dir = 0; dir < DIR_MAX; dir++)
-        {
-          Movement movement = {row, col, dir};
-          if (can_hero_move(map, movement))
-          {
-            apply_movement(map, movement);
-            cout << endl << map_print_counter++ << endl;
-            print_moves();
-            bool solved = play(map);
-            discard_movement(map, movement);
-            if (solved)
-              return true;
-            moves.pop_back();
-          }
-        }
-
-  return false;
-}
-
-/*bool play(map_t map)
-{
-  Movement movement = {0, 0, -1};
-  for (int line = 0; line < (int)map.size(); line++)
-  {
-    while (find_movement(map, line, movement))
     {
-      apply_movement(map, movement);
-      print_map(map); // Uncomment to debugging
-      print_moves();
-      if (play(map))
-        return true;
-      discard_movement(map, movement);
-    }
-  }
-
-  // if (is_there_move(map))
-  //   play(map);
-
-  if (lefted_heros(map) == 1)
-    return true;
-
-  return false;
-}*/
-
-bool find_movement(map_t map, int line, Movement &movement)
-{
-  int line_width = (int)map[line].size();
-
-  for (int col = movement.col; col < line_width; col++)
-  {
-    if (map[line][col] == HERO)
-    {
-      for (int dir = movement.dir + 1; dir < DIR_MAX; dir++)
+      if (map[row][col] != HERO)
+        continue;
+      lefted_heros++;
+      for (int dir = 0; dir < DIR_MAX; dir++)
       {
-        Movement try_to_move = {line, col, dir};
-        if (can_hero_move(map, try_to_move))
+        Movement movement = {row, col, dir};
+        if (can_hero_move(map, movement))
         {
-          movement = try_to_move;
-          return true;
+          apply_movement(map, movement);
+          // cout << endl
+          //      << ++map_print_counter << endl;
+          // print_moves();
+          bool solved = play(map);
+          discard_movement(map, movement);
+          if (solved)
+            return true;
+          moves.pop_back();
         }
       }
     }
-  }
-  return false;
+
+  return lefted_heros == END_POINT;
 }
 
 bool can_hero_move(map_t map, Movement try_to_move)
@@ -304,26 +262,4 @@ void discard_movement(map_t &map, Movement movement)
     exit(-1);
     break;
   }
-}
-
-bool is_there_move(map_t map)
-{
-  Movement movement = {0, 0, -1};
-  for (int line = 0; line < ROW_MAX; line++)
-  {
-    if (find_movement(map, line, movement))
-      return true;
-  }
-  return false;
-}
-
-int lefted_heros(map_t map)
-{
-  int num_of_heros = 0;
-  for (int row = 0; row < ROW_MAX; row++)
-    for (int col = 0; col < COL_MAX; col++)
-      if (map[row][col] == HERO)
-        num_of_heros++;
-
-  return num_of_heros;
 }
