@@ -62,7 +62,7 @@ typedef vector<day_t> week_t;
 void read_and_store(week_t week);
 void visualize(week_t week);
 
-void add_day_to_session(Session session, string weekday_name);
+void add_weekday_to_session(Session session, string weekday_name);
 void read_and_add_date_to_session(Session session);
 void add_session_to_timeline(day_t day,Session session);
 
@@ -83,13 +83,32 @@ void read_and_store(week_t week)
     string weekday_name;
     while (cin >> weekday_name)
     {
-        add_day_to_session(session, weekday_name);
+        add_weekday_to_session(session, weekday_name);
         read_and_add_date_to_session(session);
         add_session_to_timeline(week[session.day], session);
     }
 }
 
-void add_day_to_session(Session session, string weekday_name);
+void add_weekday_to_session(Session session, string weekday_name)
+{
+    if (weekday_name == "SAT")
+        session.day = Saturday;
+    else if (weekday_name == "SUN")
+        session.day = Sunday;
+    else if (weekday_name == "MON")
+        session.day = Monday;
+    else if (weekday_name == "TUE")
+        session.day = Tuesday;
+    else if (weekday_name == "WED")
+        session.day = Wednesday;
+    else if (weekday_name == "THU")
+        session.day = Thursday;
+    else if (weekday_name == "FRI")
+        session.day = Friday;
+    else
+        cerr << "ERROR: Can't assign weekday!" << endl;
+}
+
 void read_and_add_date_to_session(Session session);
 void add_session_to_timeline(day_t day, Session session);
 
