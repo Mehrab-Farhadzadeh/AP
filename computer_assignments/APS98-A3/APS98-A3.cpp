@@ -59,8 +59,24 @@ typedef vector<Session> timeline_t;
 typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
+void read_and_store(week_t week);
+void visualize(week_t week);
+
 int main()
 {
+    week_t week;
+    read_and_store(week);
+    visualize(week);
 
     return 0;
+}
+
+void read_and_store(week_t week)
+{
+    
+}
+
+void visualize(week_t week)
+{
+    
 }
