@@ -49,18 +49,13 @@ struct Session
     Time start;
     Time end;
     weekday day;
-};
-
-struct CourseGroup
-{
-    vector<Session> sessions;
-    course_t id;
-    group_t gp_num;
+    course_t course;
+    group_t group;
 };
 
 typedef int group_t;
 typedef string course_t;
-typedef vector<CourseGroup> timeline_t;
+typedef vector<Session> timeline_t;
 typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
