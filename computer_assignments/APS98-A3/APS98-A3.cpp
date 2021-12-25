@@ -40,8 +40,7 @@ enum minute
 
 struct Time
 {
-    hour h;
-    minute m;
+    int hour, minute;
 };
 
 struct Session
@@ -63,7 +62,7 @@ void read_and_store(week_t week);
 void visualize(week_t week);
 
 void add_weekday_to_session(Session session, string weekday_name);
-void read_and_add_date_to_session(Session session);
+void read_and_add_time_to_session(Session session);
 void add_session_to_timeline(day_t day,Session session);
 
 int main()
@@ -84,7 +83,7 @@ void read_and_store(week_t week)
     while (cin >> weekday_name)
     {
         add_weekday_to_session(session, weekday_name);
-        read_and_add_date_to_session(session);
+        read_and_add_time_to_session(session);
         add_session_to_timeline(week[session.day], session);
     }
 }
@@ -109,7 +108,13 @@ void add_weekday_to_session(Session session, string weekday_name)
         cerr << "ERROR: Can't assign weekday!" << endl;
 }
 
-void read_and_add_date_to_session(Session session);
+void read_and_add_time_to_session(Session session)
+{
+    char delimiter;
+    cin >> session.start.hour >> delimiter >> session.start.minute;
+    cin >> session.end.hour >> delimiter >> session.end.minute;
+}
+
 void add_session_to_timeline(day_t day, Session session);
 
 void visualize(week_t week)
