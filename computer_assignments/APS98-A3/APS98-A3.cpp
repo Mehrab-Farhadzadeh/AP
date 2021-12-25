@@ -58,23 +58,23 @@ typedef vector<Session> timeline_t;
 typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
-void read_and_store(week_t week);
+void read_and_store(week_t &week);
 void visualize(week_t week);
 
-void add_weekday_to_session(Session session, string weekday_name);
-void read_and_add_time_to_session(Session session);
-void add_session_to_timeline(day_t day,Session session);
+void add_weekday_to_session(Session &session, string weekday_name);
+void read_and_add_time_to_session(Session &session);
+void add_session_to_timeline(day_t &day, Session session);
 
 int main()
 {
-    week_t week;
+    week_t week(7);
     read_and_store(week);
     visualize(week);
 
     return 0;
 }
 
-void read_and_store(week_t week)
+void read_and_store(week_t &week)
 {
     Session session;
     char delimiter;
@@ -88,7 +88,7 @@ void read_and_store(week_t week)
     }
 }
 
-void add_weekday_to_session(Session session, string weekday_name)
+void add_weekday_to_session(Session &session, string weekday_name)
 {
     if (weekday_name == "SAT")
         session.day = Saturday;
@@ -108,14 +108,17 @@ void add_weekday_to_session(Session session, string weekday_name)
         cerr << "ERROR: Can't assign weekday!" << endl;
 }
 
-void read_and_add_time_to_session(Session session)
+void read_and_add_time_to_session(Session &session)
 {
     char delimiter;
     cin >> session.start.hour >> delimiter >> session.start.minute;
     cin >> session.end.hour >> delimiter >> session.end.minute;
 }
 
-void add_session_to_timeline(day_t day, Session session);
+void add_session_to_timeline(day_t &day, Session session)
+{
+
+}
 
 void visualize(week_t week)
 {
