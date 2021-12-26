@@ -59,11 +59,13 @@ typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
 void read_and_store(week_t &week);
-void visualize(week_t week);
-
 void add_weekday_to_session(Session &session, string weekday_name);
 void read_and_add_time_to_session(Session &session);
-void add_session_to_timeline(day_t &day, Session session);
+void add_session_to_proper_timeline(day_t &day, Session session);
+bool is_there_confliction(Session session, timeline_t timeline);
+timeline_t make_new_timeline();
+
+void visualize(week_t week);
 
 int main()
 {
@@ -84,7 +86,7 @@ void read_and_store(week_t &week)
     {
         add_weekday_to_session(session, weekday_name);
         read_and_add_time_to_session(session);
-        add_session_to_timeline(week[session.day], session);
+        add_session_to_proper_timeline(week[session.day], session);
     }
 }
 
@@ -115,9 +117,30 @@ void read_and_add_time_to_session(Session &session)
     cin >> session.end.hour >> delimiter >> session.end.minute;
 }
 
-void add_session_to_timeline(day_t &day, Session session)
+void add_session_to_proper_timeline(day_t &day, Session session)
 {
+    int current_timeline, last_timeline = day.size() - 1;
+    for (current_timeline = last_timeline; current_timeline >= 0; current_timeline--)
+    {
+        if (!is_there_confliction(session, day[current_timeline]))
+            break;
+    }
+    current_timeline++; // Now the current_timline's value is the first place below the confliction.
+    if (current_timeline > last_timeline)
+        day.push_back(make_new_timeline());
 
+    day[current_timeline].push_back(session);
+}
+
+bool is_there_confliction(Session session, timeline_t timeline)
+{
+    
+}
+
+timeline_t make_new_timeline()
+{
+    timeline_t timeline;
+    return timeline;
 }
 
 void visualize(week_t week)
