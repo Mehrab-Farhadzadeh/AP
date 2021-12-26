@@ -3,6 +3,8 @@
 #include <string>
 using namespace std;
 
+#define STARTING_HOUR 7
+
 enum weekday
 {
     Saturday,
@@ -14,44 +16,16 @@ enum weekday
     Friday
 };
 
-enum hour
-{
-    seven = 7,
-    eight,
-    nine,
-    ten,
-    eleven,
-    twelve,
-    thirteen,
-    fourteen,
-    fifteen,
-    sixteen,
-    seventeen,
-    eighteen,
-    nineteen,
-    twenty
-};
-
-enum minute
-{
-    zero = 0,
-    thirty = 30
-};
-
-struct Time
-{
-    int hour, minute;
-};
-
 struct Session
 {
-    Time start;
-    Time end;
+    timeline_index_t start;
+    timeline_index_t end;
     weekday day;
     course_id_t id;
     group_t group;
 };
 
+typedef int timeline_index_t;
 typedef int group_t;
 typedef string course_id_t;
 typedef vector<Session> timeline_t;
@@ -112,9 +86,17 @@ void add_weekday_to_session(Session &session, string weekday_name)
 
 void read_and_add_time_to_session(Session &session)
 {
+    int hour, min;
     char delimiter;
-    cin >> session.start.hour >> delimiter >> session.start.minute;
-    cin >> session.end.hour >> delimiter >> session.end.minute;
+    cin >> hour >> delimiter >> min;
+    session.start = 2 * (hour - STARTING_HOUR);
+    if (min == 30)
+        session.start++;
+
+    cin >> hour >> delimiter >> min;
+    session.end = 2 * (hour - STARTING_HOUR);
+    if (min == 30)
+        session.end++;
 }
 
 void add_session_to_proper_timeline(day_t &day, Session session)
@@ -134,7 +116,6 @@ void add_session_to_proper_timeline(day_t &day, Session session)
 
 bool is_there_confliction(Session session, timeline_t timeline)
 {
-    
 }
 
 timeline_t make_new_timeline()
@@ -145,5 +126,4 @@ timeline_t make_new_timeline()
 
 void visualize(week_t week)
 {
-    
 }
