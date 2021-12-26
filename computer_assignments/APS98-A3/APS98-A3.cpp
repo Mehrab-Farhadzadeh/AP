@@ -4,7 +4,7 @@
 using namespace std;
 
 #define STARTING_HOUR 7
-#define NUM_OF_TIME_PRIODS 27
+#define NUM_OF_TIME_BLOCKS 27
 
 enum weekday
 {
@@ -40,15 +40,16 @@ void add_session_to_proper_timeline(day_t &day, Session session);
 bool is_there_confliction(Session session, timeline_t timeline);
 timeline_t make_new_timeline();
 
-void visualize_week(week_t week);
+void visualize_week(week_t week, char *argv[]);
 void visualize_day(day_t day);
 void visualize_timeline(timeline_t timeline);
+void print_day_name(int day);
 
-int main()
+int main(int argc, char *argv[])
 {
     week_t week(7);
     read_and_store(week);
-    visualize_week(week);
+    visualize_week(week, argv);
 
     return 0;
 }
@@ -131,24 +132,66 @@ bool is_there_confliction(Session session, timeline_t timeline)
 
 timeline_t make_new_timeline()
 {
-    timeline_t timeline(NUM_OF_TIME_PRIODS);
+    timeline_t timeline(NUM_OF_TIME_BLOCKS);
     return timeline;
 }
 
-void visualize_week(week_t week)
+void visualize_week(week_t week, char *argv[])
 {
+    // cout << argv[2] << endl; // Program's name
     for (int day = Saturday; day <= Friday; day++)
     {
+        print_day_name(day);
         visualize_day(week[day]);
     }
 }
 
 void visualize_day(day_t day)
 {
+    for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
+    {
+        int hour = (time_block / 2) + STARTING_HOUR;
+        int min;
+        time_block % 2 ? min = 0 : min = 30;
+        if (time_block < 10)
+            cout << "0";
+        cout << hour << ":";
+        min == 30 ? cout << min : cout << "00";
+        cout << string(5, ' ');
+    }
+    cout << "20:30" << endl;
+    cout << string(275, '_') << endl;
 
+    int num_of_timelines = day.size();
+    for (int timeline = 0; timeline < num_of_timelines; timeline++)
+        visualize_timeline(day[timeline]);
 }
 
 void visualize_timeline(timeline_t timeline)
 {
-    
+    for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
+    {
+        cout << timeline[time_block].id << "-" << timeline[time_block].group;
+    }
+}
+
+void print_day_name(int day)
+{
+    cout << "## ";
+    if (day == 0)
+        cout << "Saturday";
+    else if (day == 1)
+        cout << "Sunday";
+    else if (day == 2)
+        cout << "Monday";
+    else if (day == 3)
+        cout << "Tuesday";
+    else if (day == 4)
+        cout << "Wednesday";
+    else if (day == 5)
+        cout << "Thursday";
+    else if (day == 6)
+        cout << "Friday";
+    else
+        cerr << "ERROR: Can't print weekday!" << endl;
 }
