@@ -33,20 +33,22 @@ typedef vector<Session> timeline_t;
 typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
-void read_and_store(week_t &week);
+void read_and_store_week(week_t &week);
 void add_weekday_to_session(Session &session, string weekday_name);
 void read_and_add_time_to_session(Session &session);
 void add_session_to_proper_timeline(day_t &day, Session session);
 bool is_there_confliction(Session session, timeline_t timeline);
 timeline_t make_new_timeline();
 
-void visualize(week_t week);
+void visualize_week(week_t week);
+void visualize_day(day_t day);
+void visualize_timeline(timeline_t timeline);
 
 int main()
 {
     week_t week(7);
     read_and_store(week);
-    visualize(week);
+    visualize_week(week);
 
     return 0;
 }
@@ -133,6 +135,20 @@ timeline_t make_new_timeline()
     return timeline;
 }
 
-void visualize(week_t week)
+void visualize_week(week_t week)
 {
+    for (int day = Saturday; day <= Friday; day++)
+    {
+        visualize_day(week[day]);
+    }
+}
+
+void visualize_day(day_t day)
+{
+
+}
+
+void visualize_timeline(timeline_t timeline)
+{
+    
 }
