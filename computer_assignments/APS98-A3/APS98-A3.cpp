@@ -4,6 +4,7 @@
 using namespace std;
 
 #define STARTING_HOUR 7
+#define NUM_OF_TIME_PRIODS 27
 
 enum weekday
 {
@@ -17,8 +18,7 @@ enum weekday
 };
 
 typedef int timeline_index_t;
-typedef int group_t;
-typedef string course_id_t;
+typedef int group_t, course_id_t;
 
 struct Session
 {
@@ -53,8 +53,7 @@ int main()
 
 void read_and_store(week_t &week)
 {
-    string session_id;
-    int session_group;
+    int session_id, session_group;
     char delimiter;
     while (cin >> session_id >> delimiter >> session_group)
     {
@@ -64,7 +63,7 @@ void read_and_store(week_t &week)
             Session session;
             session.id = session_id;
             session.group = session_group;
-            
+
             add_weekday_to_session(session, weekday_name);
             read_and_add_time_to_session(session);
             add_session_to_proper_timeline(week[session.day], session);
@@ -101,7 +100,7 @@ void read_and_add_time_to_session(Session &session)
     if (min == 30)
         session.start++;
 
-    cin >> hour >> delimiter >> min;
+    cin >> delimiter >> hour >> delimiter >> min;
     session.end = 2 * (hour - STARTING_HOUR);
     if (min == 30)
         session.end++;
@@ -119,7 +118,8 @@ void add_session_to_proper_timeline(day_t &day, Session session)
     if (current_timeline > last_timeline)
         day.push_back(make_new_timeline());
 
-    day[current_timeline].push_back(session);
+    for (timeline_index_t time_index = session.start; time_index < session.end; time_index++)
+        day[current_timeline][time_index] = session;
 }
 
 bool is_there_confliction(Session session, timeline_t timeline)
@@ -129,7 +129,7 @@ bool is_there_confliction(Session session, timeline_t timeline)
 
 timeline_t make_new_timeline()
 {
-    timeline_t timeline;
+    timeline_t timeline(NUM_OF_TIME_PRIODS);
     return timeline;
 }
 
