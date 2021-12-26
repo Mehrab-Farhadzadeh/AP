@@ -48,13 +48,13 @@ void print_day_name(int day);
 int main(int argc, char *argv[])
 {
     week_t week(7);
-    read_and_store(week);
+    read_and_store_week(week);
     visualize_week(week, argv);
 
     return 0;
 }
 
-void read_and_store(week_t &week)
+void read_and_store_week(week_t &week)
 {
     int session_id, session_group;
     char delimiter;
@@ -70,6 +70,8 @@ void read_and_store(week_t &week)
             add_weekday_to_session(session, weekday_name);
             read_and_add_time_to_session(session);
             add_session_to_proper_timeline(week[session.day], session);
+            if (cin.get() == '\n')
+                break;
         }
     }
 }
@@ -152,8 +154,8 @@ void visualize_day(day_t day)
     {
         int hour = (time_block / 2) + STARTING_HOUR;
         int min;
-        time_block % 2 ? min = 0 : min = 30;
-        if (time_block < 10)
+        time_block % 2 ? min = 30 : min = 00;
+        if (hour < 10)
             cout << "0";
         cout << hour << ":";
         min == 30 ? cout << min : cout << "00";
@@ -169,15 +171,26 @@ void visualize_day(day_t day)
 
 void visualize_timeline(timeline_t timeline)
 {
+    cout << endl;
+    string out_str = "";
     for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
     {
-        cout << timeline[time_block].id << "-" << timeline[time_block].group;
+        if (timeline[time_block].id == 0)
+            {
+                out_str += string(10, ' ');
+                continue;
+            }
+        cout << out_str << timeline[time_block].id << "-" << timeline[time_block].group << " ";
+        out_str = "";
     }
+    cout << endl;
+    cout << endl;
 }
 
 void print_day_name(int day)
 {
-    cout << "## ";
+    cout << endl
+         << "## ";
     if (day == 0)
         cout << "Saturday";
     else if (day == 1)
@@ -194,4 +207,7 @@ void print_day_name(int day)
         cout << "Friday";
     else
         cerr << "ERROR: Can't print weekday!" << endl;
+
+    cout << endl
+         << endl;
 }
