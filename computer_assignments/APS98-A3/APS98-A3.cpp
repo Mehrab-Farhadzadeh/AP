@@ -16,6 +16,10 @@ enum weekday
     Friday
 };
 
+typedef int timeline_index_t;
+typedef int group_t;
+typedef string course_id_t;
+
 struct Session
 {
     timeline_index_t start;
@@ -25,9 +29,6 @@ struct Session
     group_t group;
 };
 
-typedef int timeline_index_t;
-typedef int group_t;
-typedef string course_id_t;
 typedef vector<Session> timeline_t;
 typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
@@ -52,15 +53,22 @@ int main()
 
 void read_and_store(week_t &week)
 {
-    Session session;
+    string session_id;
+    int session_group;
     char delimiter;
-    cin >> session.id >> delimiter >> session.group;
-    string weekday_name;
-    while (cin >> weekday_name)
+    while (cin >> session_id >> delimiter >> session_group)
     {
-        add_weekday_to_session(session, weekday_name);
-        read_and_add_time_to_session(session);
-        add_session_to_proper_timeline(week[session.day], session);
+        string weekday_name;
+        while (cin >> weekday_name)
+        {
+            Session session;
+            session.id = session_id;
+            session.group = session_group;
+            
+            add_weekday_to_session(session, weekday_name);
+            read_and_add_time_to_session(session);
+            add_session_to_proper_timeline(week[session.day], session);
+        }
     }
 }
 
@@ -116,6 +124,7 @@ void add_session_to_proper_timeline(day_t &day, Session session)
 
 bool is_there_confliction(Session session, timeline_t timeline)
 {
+    return true;
 }
 
 timeline_t make_new_timeline()
