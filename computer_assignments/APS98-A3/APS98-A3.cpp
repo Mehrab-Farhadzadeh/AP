@@ -51,6 +51,7 @@ timeline_t make_new_timeline();
 void visualize_week(week_t week, char *argv[]);
 void visualize_day(day_t day);
 void visualize_timeline(timeline_t timeline);
+void print_borders(timeline_t timeline);
 void print_day_name(int day);
 
 int main(int argc, char *argv[])
@@ -185,6 +186,8 @@ timeline_t make_new_timeline()
 void visualize_week(week_t week, char *argv[])
 {
     // cout << argv[2] << endl; // Program's name
+    cout << "# Prog" << endl
+         << endl;
     for (int day = Saturday; day <= Friday; day++)
     {
         print_day_name(day);
@@ -211,11 +214,12 @@ void visualize_day(day_t day)
     int num_of_timelines = day.size();
     for (int timeline = 0; timeline < num_of_timelines; timeline++)
         visualize_timeline(day[timeline]);
+    cout << endl;
 }
 
 void visualize_timeline(timeline_t timeline)
 {
-    cout << endl;
+    print_borders(timeline);
     string empty_time_blocks = "  ";
     for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
     {
@@ -237,13 +241,35 @@ void visualize_timeline(timeline_t timeline)
         empty_time_blocks = "";
     }
     cout << endl;
+    print_borders(timeline);
+}
+
+void print_borders(timeline_t timeline)
+{
+    string empty_time_blocks = "  ";
+    for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
+    {
+        if (timeline[time_block].id == 0)
+        {
+            empty_time_blocks += string(10, ' ');
+            continue;
+        }
+        int used_blocks = 1;
+        while ((timeline[time_block].id == timeline[++time_block].id) && (timeline[time_block - 1].group == timeline[time_block].group))
+            used_blocks++;
+        time_block--;
+
+        int field_width = (used_blocks * TIME_BLOCK_SIZE) - VERTICAL_LINES;
+        cout << empty_time_blocks;
+        cout << '+' << string(field_width, '-') << '+';
+        empty_time_blocks = "";
+    }
     cout << endl;
 }
 
 void print_day_name(int day)
 {
-    cout << endl
-         << "## ";
+    cout << "## ";
     if (day == 0)
         cout << "Saturday";
     else if (day == 1)
