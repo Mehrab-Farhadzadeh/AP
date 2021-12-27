@@ -37,7 +37,7 @@ void read_and_store_week(week_t &week);
 void add_weekday_to_session(Session &session, string weekday_name);
 void read_and_add_time_to_session(Session &session);
 void add_session_to_proper_timeline(day_t &day, Session session);
-bool is_there_confliction(Session session, timeline_t timeline);
+bool are_in_conflict(Session session, timeline_t timeline);
 timeline_t make_new_timeline();
 
 void visualize_week(week_t week, char *argv[]);
@@ -116,7 +116,7 @@ void add_session_to_proper_timeline(day_t &day, Session session)
     int current_timeline, last_timeline = day.size() - 1;
     for (current_timeline = last_timeline; current_timeline >= 0; current_timeline--)
     {
-        if (!is_there_confliction(session, day[current_timeline]))
+        if (!are_in_conflict(session, day[current_timeline]))
             break;
     }
     current_timeline++; // Now the current_timline's value is the first place below the confliction.
@@ -127,9 +127,14 @@ void add_session_to_proper_timeline(day_t &day, Session session)
         day[current_timeline][time_index] = session;
 }
 
-bool is_there_confliction(Session session, timeline_t timeline)
+bool are_in_conflict(Session session, timeline_t timeline)
 {
-    return true;
+    for (timeline_index_t time_index = session.start; time_index < session.end; time_index++)
+    {
+        if (timeline[time_index].id != 0)
+            return true;
+    }
+    return false;
 }
 
 timeline_t make_new_timeline()
@@ -176,10 +181,10 @@ void visualize_timeline(timeline_t timeline)
     for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
     {
         if (timeline[time_block].id == 0)
-            {
-                out_str += string(10, ' ');
-                continue;
-            }
+        {
+            out_str += string(10, ' ');
+            continue;
+        }
         cout << out_str << timeline[time_block].id << "-" << timeline[time_block].group << " ";
         out_str = "";
     }
