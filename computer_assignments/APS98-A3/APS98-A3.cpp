@@ -1,11 +1,14 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 using namespace std;
 
 #define STARTING_HOUR 7
 #define NUM_OF_TIME_BLOCKS 27
 #define FIRST_TIMELINE 0
+#define TIME_BLOCK_SIZE 10
+#define GROUP_SIZE_IN_TIMELINE 4
 
 enum weekday
 {
@@ -20,6 +23,7 @@ enum weekday
 
 typedef int timeline_index_t;
 typedef int group_t, course_id_t;
+typedef string course_name;
 
 struct Session
 {
@@ -28,6 +32,7 @@ struct Session
     weekday day;
     course_id_t id;
     group_t group;
+    course_name name;
 };
 
 typedef vector<Session> timeline_t;
@@ -35,6 +40,7 @@ typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
 void read_and_store_week(week_t &week);
+course_name find_name_by_id(string file_path, course_id_t session_id);
 void add_weekday_to_session(Session &session, string weekday_name);
 void read_and_add_time_to_session(Session &session);
 void add_session_to_proper_timeline(day_t &day, Session session);
@@ -57,6 +63,7 @@ int main(int argc, char *argv[])
 
 void read_and_store_week(week_t &week)
 {
+    string file_path = "./sample_testcases/big/courses.csv";
     int session_id, session_group;
     char delimiter;
     while (cin >> session_id >> delimiter >> session_group)
@@ -67,6 +74,7 @@ void read_and_store_week(week_t &week)
             Session session;
             session.id = session_id;
             session.group = session_group;
+            session.name = find_name_by_id(file_path, session.id);
 
             add_weekday_to_session(session, weekday_name);
             read_and_add_time_to_session(session);
@@ -75,6 +83,27 @@ void read_and_store_week(week_t &week)
                 break;
         }
     }
+}
+
+course_name find_name_by_id(string file_path, course_id_t session_id)
+{
+    fstream courses_file(file_path);
+    if (courses_file.is_open())
+        cerr << "Unable to open file: " << file_path << endl;
+    string line;
+    getline(courses_file, line); // Skip first line
+    while (true)
+    {
+        if (courses_file.eof())
+            break;
+        course_id_t id_in_file;
+        course_name name_in_file;
+        char delimiter;
+        courses_file >> id_in_file >> delimiter >> name_in_file;
+        if (id_in_file == session_id)
+            return name_in_file;
+    }
+    return "ERROR FINDING NAME!";
 }
 
 void add_weekday_to_session(Session &session, string weekday_name)
@@ -185,16 +214,25 @@ void visualize_day(day_t day)
 void visualize_timeline(timeline_t timeline)
 {
     cout << endl;
-    string out_str = "";
+    string empty_time_blocks = "";
     for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
     {
         if (timeline[time_block].id == 0)
         {
-            out_str += string(10, ' ');
+            empty_time_blocks += string(10, ' ');
             continue;
         }
-        cout << out_str << timeline[time_block].id << "-" << timeline[time_block].group << " ";
-        out_str = "";
+        int used_blocks = 1;
+        while (timeline[time_block].id == timeline[++time_block].id)
+            used_blocks++;
+        time_block--;
+
+        int field_width = used_blocks * TIME_BLOCK_SIZE;
+        int spaces = (field_width - timeline[time_block].name.size()) / 2;
+        string center_aligned_name = string(spaces, ' ') + timeline[time_block].name;
+        cout << empty_time_blocks << center_aligned_name << " (" << timeline[time_block].group << ")";
+        cout << string(field_width - spaces - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE, ' ');
+        empty_time_blocks = "";
     }
     cout << endl;
     cout << endl;
