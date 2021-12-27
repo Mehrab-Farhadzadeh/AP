@@ -234,7 +234,9 @@ void visualize_timeline(timeline_t timeline)
         time_block--;
 
         int field_width = (used_blocks * TIME_BLOCK_SIZE) - VERTICAL_LINES;
-        int spaces = ((field_width - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE) / 2) + 1;
+        int spaces = (field_width - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE) / 2;
+        if (((field_width - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE)) % 2)
+            spaces++;
         string center_aligned_name = string(spaces, ' ') + timeline[time_block].name;
         cout << empty_time_blocks << '|' << center_aligned_name << " (" << timeline[time_block].group << ")";
         cout << string(field_width - spaces - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE, ' ') << '|';
