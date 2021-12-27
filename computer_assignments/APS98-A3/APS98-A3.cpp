@@ -5,6 +5,7 @@ using namespace std;
 
 #define STARTING_HOUR 7
 #define NUM_OF_TIME_BLOCKS 27
+#define FIRST_TIMELINE 0
 
 enum weekday
 {
@@ -113,18 +114,25 @@ void read_and_add_time_to_session(Session &session)
 
 void add_session_to_proper_timeline(day_t &day, Session session)
 {
-    int current_timeline, last_timeline = day.size() - 1;
-    for (current_timeline = last_timeline; current_timeline >= 0; current_timeline--)
+    if (day.size() == 0)
+        day.push_back(make_new_timeline());
+    int proper_timeline, current_timeline, last_timeline = day.size() - 1;
+    bool confliction = false;
+    for (current_timeline = last_timeline; current_timeline >= FIRST_TIMELINE; current_timeline--)
     {
-        if (!are_in_conflict(session, day[current_timeline]))
+        if (are_in_conflict(session, day[current_timeline]))
+        {
+            confliction = true;
             break;
+        }
     }
-    current_timeline++; // Now the current_timline's value is the first place below the confliction.
-    if (current_timeline > last_timeline)
+    confliction ? proper_timeline = current_timeline + 1 : proper_timeline = FIRST_TIMELINE;
+
+    if (proper_timeline > last_timeline)
         day.push_back(make_new_timeline());
 
     for (timeline_index_t time_index = session.start; time_index < session.end; time_index++)
-        day[current_timeline][time_index] = session;
+        day[proper_timeline][time_index] = session;
 }
 
 bool are_in_conflict(Session session, timeline_t timeline)
