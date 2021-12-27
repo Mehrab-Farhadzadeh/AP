@@ -40,7 +40,7 @@ typedef vector<Session> timeline_t;
 typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
-void read_and_store_week(week_t &week);
+void read_and_store_week(week_t &week, string courses_name_file_path);
 course_name_t find_name_by_id(string file_path, course_id_t session_id);
 void add_weekday_to_session(Session &session, string weekday_name);
 void read_and_add_time_to_session(Session &session);
@@ -48,7 +48,7 @@ void add_session_to_proper_timeline(day_t &day, Session session);
 bool are_in_conflict(Session session, timeline_t timeline);
 timeline_t make_new_timeline();
 
-void visualize_week(week_t week, char *argv[]);
+void visualize_week(week_t week, string program_name);
 void visualize_day(day_t day);
 void visualize_timeline(timeline_t timeline);
 void print_borders(timeline_t timeline);
@@ -56,21 +56,21 @@ void print_day_name(int day);
 
 int main(int argc, char *argv[])
 {
+    string program_name = argv[2], courses_name_file_path = argv[1];
     week_t week(7);
-    read_and_store_week(week);
-    visualize_week(week, argv);
+    read_and_store_week(week, courses_name_file_path);
+    visualize_week(week, program_name);
 
     return 0;
 }
 
-void read_and_store_week(week_t &week)
+void read_and_store_week(week_t &week, string courses_name_file_path)
 {
-    string file_path = "./sample_testcases/big/courses.csv";
     int session_id, session_group;
     char delimiter;
     while (cin >> session_id >> delimiter >> session_group)
     {
-        course_name_t session_name = find_name_by_id(file_path, session_id);
+        course_name_t session_name = find_name_by_id(courses_name_file_path, session_id);
         string weekday_name;
         while (cin >> weekday_name)
         {
@@ -183,10 +183,9 @@ timeline_t make_new_timeline()
     return timeline;
 }
 
-void visualize_week(week_t week, char *argv[])
+void visualize_week(week_t week, string program_name)
 {
-    // cout << argv[2] << endl; // Program's name
-    cout << "# Prog" << endl
+    cout << "# " << program_name << endl
          << endl;
     for (int day = Saturday; day <= Friday; day++)
     {
