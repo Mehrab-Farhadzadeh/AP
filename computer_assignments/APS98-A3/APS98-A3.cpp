@@ -11,7 +11,7 @@ using namespace std;
 #define GROUP_SIZE_IN_TIMELINE 4
 #define VERTICAL_LINES 2
 
-enum weekday
+enum Weekday
 {
     Saturday,
     Sunday,
@@ -22,18 +22,19 @@ enum weekday
     Friday
 };
 
-typedef int timeline_index_t;
-typedef int group_t, course_id_t;
-typedef string course_name_t;
+typedef int TimelineIndex;
+typedef unsigned short Group;
+typedef unsigned int CourseID;
+typedef string CourseName;
 
 struct Session
 {
-    timeline_index_t start;
-    timeline_index_t end;
-    weekday day;
-    course_id_t id;
-    group_t group;
-    course_name_t name;
+    TimelineIndex start;
+    TimelineIndex end;
+    Weekday day;
+    CourseID id;
+    Group group;
+    CourseName name;
 };
 
 typedef vector<Session> timeline_t;
@@ -41,7 +42,7 @@ typedef vector<timeline_t> day_t;
 typedef vector<day_t> week_t;
 
 void read_and_store_week(week_t &week, string courses_name_file_path);
-course_name_t find_name_by_id(string file_path, course_id_t session_id);
+CourseName find_name_by_id(string file_path, CourseID session_id);
 void add_weekday_to_session(Session &session, string weekday_name);
 void read_and_add_time_to_session(Session &session);
 void add_session_to_proper_timeline(day_t &day, Session session);
@@ -70,7 +71,7 @@ void read_and_store_week(week_t &week, string courses_name_file_path)
     char delimiter;
     while (cin >> session_id >> delimiter >> session_group)
     {
-        course_name_t session_name = find_name_by_id(courses_name_file_path, session_id);
+        CourseName session_name = find_name_by_id(courses_name_file_path, session_id);
         string weekday_name;
         while (cin >> weekday_name)
         {
@@ -88,7 +89,7 @@ void read_and_store_week(week_t &week, string courses_name_file_path)
     }
 }
 
-course_name_t find_name_by_id(string file_path, course_id_t session_id)
+CourseName find_name_by_id(string file_path, CourseID session_id)
 {
     fstream courses_file(file_path);
     if (!courses_file.is_open())
@@ -99,8 +100,8 @@ course_name_t find_name_by_id(string file_path, course_id_t session_id)
     {
         if (courses_file.eof())
             break;
-        course_id_t id_in_file;
-        course_name_t name_in_file;
+        CourseID id_in_file;
+        CourseName name_in_file;
         char delimiter;
         courses_file >> id_in_file >> delimiter >> name_in_file;
         if (id_in_file == session_id)
@@ -163,13 +164,13 @@ void add_session_to_proper_timeline(day_t &day, Session session)
     if (proper_timeline > last_timeline)
         day.push_back(make_new_timeline());
 
-    for (timeline_index_t time_index = session.start; time_index < session.end; time_index++)
+    for (TimelineIndex time_index = session.start; time_index < session.end; time_index++)
         day[proper_timeline][time_index] = session;
 }
 
 bool are_in_conflict(Session session, timeline_t timeline)
 {
-    for (timeline_index_t time_index = session.start; time_index < session.end; time_index++)
+    for (TimelineIndex time_index = session.start; time_index < session.end; time_index++)
     {
         if (timeline[time_index].id != 0)
             return true;
