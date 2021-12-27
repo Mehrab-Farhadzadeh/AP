@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
 void read_and_store_week(week_t &week)
 {
-    string file_path = "./sample_testcases/small/courses.csv";
+    string file_path = "./sample_testcases/big/courses.csv";
     int session_id, session_group;
     char delimiter;
     while (cin >> session_id >> delimiter >> session_group)
@@ -225,7 +225,7 @@ void visualize_timeline(timeline_t timeline)
             continue;
         }
         int used_blocks = 1;
-        while (timeline[time_block].id == timeline[++time_block].id)
+        while (timeline[time_block].group == timeline[++time_block].group)
             used_blocks++;
         time_block--;
 
