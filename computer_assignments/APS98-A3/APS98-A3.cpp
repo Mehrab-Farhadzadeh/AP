@@ -216,7 +216,7 @@ void visualize_day(day_t day)
 void visualize_timeline(timeline_t timeline)
 {
     cout << endl;
-    string empty_time_blocks = "";
+    string empty_time_blocks = "  ";
     for (int time_block = 0; time_block < NUM_OF_TIME_BLOCKS; time_block++)
     {
         if (timeline[time_block].id == 0)
@@ -225,12 +225,12 @@ void visualize_timeline(timeline_t timeline)
             continue;
         }
         int used_blocks = 1;
-        while (timeline[time_block].group == timeline[++time_block].group)
+        while ((timeline[time_block].id == timeline[++time_block].id) && (timeline[time_block - 1].group == timeline[time_block].group))
             used_blocks++;
         time_block--;
 
         int field_width = (used_blocks * TIME_BLOCK_SIZE) - VERTICAL_LINES;
-        int spaces = (field_width - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE) / 2;
+        int spaces = ((field_width - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE) / 2) + 1;
         string center_aligned_name = string(spaces, ' ') + timeline[time_block].name;
         cout << empty_time_blocks << '|' << center_aligned_name << " (" << timeline[time_block].group << ")";
         cout << string(field_width - spaces - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE, ' ') << '|';
