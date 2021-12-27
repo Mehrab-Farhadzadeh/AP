@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
 void read_and_store_week(week_t &week)
 {
-    string file_path = "/sample_testcases/small/courses.csv";
+    string file_path = "./sample_testcases/small/courses.csv";
     int session_id, session_group;
     char delimiter;
     while (cin >> session_id >> delimiter >> session_group)
@@ -89,9 +89,8 @@ void read_and_store_week(week_t &week)
 
 course_name_t find_name_by_id(string file_path, course_id_t session_id)
 {
-    return to_string(session_id);
     fstream courses_file(file_path);
-    if (courses_file.is_open())
+    if (!courses_file.is_open())
         cerr << "Unable to open file: " << file_path << endl;
     string line;
     getline(courses_file, line); // Skip first line
