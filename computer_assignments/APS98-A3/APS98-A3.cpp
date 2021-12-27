@@ -227,10 +227,8 @@ void visualize_timeline(timeline_t timeline)
             empty_time_blocks += string(10, ' ');
             continue;
         }
-        int used_blocks = 1;
-        while ((timeline[time_block].id == timeline[++time_block].id) && (timeline[time_block - 1].group == timeline[time_block].group))
-            used_blocks++;
-        time_block--;
+        int used_blocks = timeline[time_block].end - timeline[time_block].start;
+        time_block += used_blocks - 1;
 
         int field_width = (used_blocks * TIME_BLOCK_SIZE) - VERTICAL_LINES;
         int spaces = (field_width - timeline[time_block].name.size() - GROUP_SIZE_IN_TIMELINE) / 2;
@@ -255,10 +253,8 @@ void print_borders(timeline_t timeline)
             empty_time_blocks += string(10, ' ');
             continue;
         }
-        int used_blocks = 1;
-        while ((timeline[time_block].id == timeline[++time_block].id) && (timeline[time_block - 1].group == timeline[time_block].group))
-            used_blocks++;
-        time_block--;
+        int used_blocks = timeline[time_block].end - timeline[time_block].start;
+        time_block += used_blocks - 1;
 
         int field_width = (used_blocks * TIME_BLOCK_SIZE) - VERTICAL_LINES;
         cout << empty_time_blocks;
