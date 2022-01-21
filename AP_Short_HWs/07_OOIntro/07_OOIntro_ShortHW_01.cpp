@@ -145,6 +145,7 @@ int main()
     vp.push_back(Person("ghamar", 3, 12, 1368));
     vp.push_back(Person("alaleh", 12, 2, 1360));
     vp.push_back(Person("hossein", 12, 2, 1380));
+    vp.push_back(Person("abdollah", 28, 12, 1375));
 
     cout << "Hello my friend!" << endl
          << "May I ask your name? ";
@@ -160,22 +161,20 @@ int main()
     {
         int diff = vp[i].get_bdate().compare(new_guy.get_bdate());
         if (diff == 0)
-            cout
-                << "Wow!" << endl
-                << "You and " << vp[i].get_name() << " are as old as eachother." << endl;
+            cout << "Wow! You and " << vp[i].get_name() << " are as old as eachother." << endl;
         else if (diff > 0)
             cout << vp[i].get_name() << " is younger than you." << endl;
         else
             cout << vp[i].get_name() << " is older than you." << endl;
     }
-    
-    // **************************************************************************
-    cout << "Today? ";
-    string today_str;
-    cin >> today_str;
-    Date today = str_to_date(today_str);
 
-    for (int i = 0; i < (int)vp.size(); i++)
-        if (vp[i].get_bdate().equals(today))
-            cout << "Happy Birth Day " << vp[i].get_name() << "!\n";
+    // **************************************************************************
+    // cout << "Today? ";
+    // string today_str;
+    // cin >> today_str;
+    // Date today = str_to_date(today_str);
+
+    // for (int i = 0; i < (int)vp.size(); i++)
+    //     if (vp[i].get_bdate().equals(today))
+    //         cout << "Happy Birth Day " << vp[i].get_name() << "!\n";
 }
