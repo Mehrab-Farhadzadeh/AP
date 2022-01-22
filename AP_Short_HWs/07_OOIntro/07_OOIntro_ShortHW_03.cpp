@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <map>
 #include <vector>
 using namespace std;
 
@@ -13,6 +14,7 @@ public:
     void inc_one_day();
     bool equals(Date d);
     int compare(Date d);
+    string day_of_week();
 
     int get_day() { return day; }
     int get_month() { return month; }
@@ -31,6 +33,8 @@ Date::Date(int d, int m, int y)
 
 bool is_leap_year(int year)
 {
+    if (year == 1)
+        return false;
     int r = year % 33;
     return r == 1 || r == 5 || r == 9 || r == 13 || r == 17 || r == 22 || r == 26 || r == 30;
 }
@@ -118,6 +122,54 @@ int Date::compare(Date d)
         return 1;
 }
 
+enum Weekday
+{
+    FRI,
+    SAT,
+    SUN,
+    MON,
+    TUE,
+    WED,
+    THU
+};
+
+map<Weekday, string> get_weekday_dict()
+{
+    static map<Weekday, string> weekday_dict;
+    if (!weekday_dict.size())
+    {
+        weekday_dict[SAT] = "sat";
+        weekday_dict[SUN] = "sun";
+        weekday_dict[MON] = "mon";
+        weekday_dict[TUE] = "tue";
+        weekday_dict[WED] = "wed";
+        weekday_dict[THU] = "thu";
+        weekday_dict[FRI] = "fri";
+    }
+    return weekday_dict;
+}
+
+int days_between(Date d1, Date d2)
+{
+    if (d1.compare(d2) > 0)
+        swap(d1, d2);
+
+    int count = 0;
+    while (!d1.equals(d2))
+    {
+        d1.inc_one_day();
+        count++;
+    }
+    return count;
+}
+
+string Date::day_of_week()
+{
+    map<Weekday, string> weekday_dict = get_weekday_dict();
+    string weekday_name = weekday_dict.at((Weekday)(days_between(Date(day, month, year), Date(1, 1, 1)) % 7));
+    return weekday_name;
+}
+
 class Person
 {
 public:
@@ -138,20 +190,6 @@ Person::Person(string n, int d, int m, int y)
     name = n;
 }
 
-int days_between(Date d1, Date d2)
-{
-    if (d1.compare(d2) > 0)
-        swap(d1, d2);
-
-    int count = 0;
-    while (!d1.equals(d2))
-    {
-        d1.inc_one_day();
-        count++;
-    }
-    return count;
-}
-
 int main()
 {
     vector<Person> vp;
@@ -161,34 +199,32 @@ int main()
     vp.push_back(Person("hossein", 12, 2, 1380));
     vp.push_back(Person("abdollah", 28, 12, 1375));
 
-    cout << "Hello my friend!" << endl
-         << "May I ask your name? ";
-    string user_name;
-    cin >> user_name;
-    cout << "And, your birthday? \n";
-    string birthday;
-    cin >> birthday;
-    Date bd = str_to_date(birthday);
-    Person new_guy(user_name, bd.get_day(), bd.get_month(), bd.get_year());
-
-    for (int i = 0; i < (int)vp.size(); i++)
-    {
-        int diff = vp[i].get_bdate().compare(new_guy.get_bdate());
-        if (diff == 0)
-            cout << "Wow! You and " << vp[i].get_name() << " are as old as eachother." << endl;
-        else if (diff > 0)
-            cout << vp[i].get_name() << " is younger than you." << endl;
-        else
-            cout << vp[i].get_name() << " is older than you." << endl;
-    }
+    // cout << "Hello my friend!" << endl
+    //      << "May I ask your name? ";
+    // string user_name;
+    // cin >> user_name;
+    // cout << "And, your birthday? \n";
+    // string birthday;
+    // cin >> birthday;
+    // Date bd = str_to_date(birthday);
+    // Person new_guy(user_name, bd.get_day(), bd.get_month(), bd.get_year());
+    // for (int i = 0; i < (int)vp.size(); i++)
+    // {
+    //     int diff = vp[i].get_bdate().compare(new_guy.get_bdate());
+    //     if (diff == 0)
+    //         cout << "Wow! You and " << vp[i].get_name() << " are as old as eachother." << endl;
+    //     else if (diff > 0)
+    //         cout << vp[i].get_name() << " is younger than you." << endl;
+    //     else
+    //         cout << vp[i].get_name() << " is older than you." << endl;
+    // }
 
     // **************************************************************************
-    // cout << "Today? ";
-    // string today_str;
-    // cin >> today_str;
-    // Date today = str_to_date(today_str);
-
-    // for (int i = 0; i < (int)vp.size(); i++)
-    //     if (vp[i].get_bdate().equals(today))
-    //         cout << "Happy Birth Day " << vp[i].get_name() << "!\n";
+    cout << "Today? ";
+    string today_str;
+    cin >> today_str;
+    Date today = str_to_date(today_str);
+    cout << "Today is " << today.day_of_week() << endl;
+    for (int i = 0; i < (int)vp.size(); i++)
+        cout << vp[i].get_name() << " born at " << vp[i].get_bdate().day_of_week() << endl;
 }
