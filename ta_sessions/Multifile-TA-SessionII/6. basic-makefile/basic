@@ -1,0 +1,25 @@
+
+all: a.out
+
+a.out: main.o A.o B.o C.o
+	g++ main.o A.o C.o B.o -o a.out
+	
+
+main.o: main.cc A.hh B.hh C.hh
+	g++ -c main.cc
+
+
+A.o: A.cc A.hh 
+	g++ -c A.cc
+
+
+B.o: B.cc B.hh A.hh
+	g++ -c B.cc
+
+
+C.o: C.cc C.hh A.hh B.hh
+	g++ -c C.cc
+
+
+clean:
+	rm *.o a.out

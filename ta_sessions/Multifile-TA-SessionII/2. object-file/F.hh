@@ -1,0 +1,3 @@
+struct F {
+  void method();
+};
