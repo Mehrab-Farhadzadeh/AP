@@ -1,5 +1,5 @@
-#ifndef TO_HPP_
-#define TO_HPP_
+#ifndef TO_HPP
+#define TO_HPP
 
 #include <string>
 
