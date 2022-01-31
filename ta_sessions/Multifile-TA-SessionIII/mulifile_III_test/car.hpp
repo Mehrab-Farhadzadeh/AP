@@ -1,11 +1,12 @@
 #ifndef CIRCULAR_DEPENDENCY_CAR_HPP /*<PROJECT>_<PATH>_<FILE>_H */
 #define CIRCULAR_DEPENDENCY_CAR_HPP
 
-#include <vector>
 #include "wheel.hpp"
+
 class Car
 {
-    std::vector<Wheel> wheels;
+public:
+    Wheel wheel_1, wheel_2;
 };
 
 #endif
