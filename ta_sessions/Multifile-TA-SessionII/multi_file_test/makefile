@@ -17,5 +17,9 @@ ${BUILD_DIR}/man.o: man.cpp to.hpp
 ${BUILD_DIR}/to.o: to.cpp to.hpp
 	${CC} -c to.cpp -o ${BUILD_DIR}/to.o	
 
+
+run: 
+	./${BUILD_DIR}/${EXEC_FILE_NAME}
+
 clean:
 	rm -rf ${BUILD_DIR}/ && mkdir -p ${BUILD_DIR}
