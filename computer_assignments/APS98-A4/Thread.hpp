@@ -6,12 +6,15 @@
 class Thread
 {
 public:
-    Thread(int _id, int _demanded_time_slices);
+    Thread(int _pid, int _tid, int _demanded_time_slices);
     void run();
     bool is_done();
+    int get_tid();
+    int get_pid();
+    int remaining_time_slots();
 
 private:
-    int id;
+    int pid, tid;
     int demanded_time_slices;
 };
 
