@@ -1,5 +1,9 @@
+#include <iostream>
+#include <vector>
 #include "Core.hpp"
 #include "Thread.hpp"
+
+using namespace std;
 
 Core::Core(int _id)
 {
@@ -22,5 +26,15 @@ void Core::run()
         {
             queue.insert(queue.begin(), thread);
         }
+    }
+}
+
+void Core::show_stat()
+{
+    cout << "Core number : " << id << endl;
+    for (int i = 0; i < (int)queue.size(); i++)
+    {
+        cout << "Process ID : " << queue[i].get_pid() << " - Thread ID : " << queue[i].get_tid() << endl;
+        cout << "Number of time slots : " << queue[i].remaining_time_slots() << endl;
     }
 }

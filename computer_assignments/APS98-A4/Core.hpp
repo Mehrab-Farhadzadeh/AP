@@ -10,6 +10,7 @@ public:
     Core(int _id);
     void add_a_thread(Thread thread);
     void run();
+    void show_stat();
 
 private:
     int id;
