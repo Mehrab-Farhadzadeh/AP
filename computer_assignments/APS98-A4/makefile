@@ -10,14 +10,18 @@ MAIN = main_APS98-A4
 
 all: $(BUILD_DIR)/$(EXEC_FILE_NAME)
 
-$(BUILD_DIR)/$(EXEC_FILE_NAME): $(BUILD_DIR)/$(MAIN).o
-	$(CC) $(BUILD_DIR)/$(MAIN).o -o $(BUILD_DIR)/$(EXEC_FILE_NAME)
+$(BUILD_DIR)/$(EXEC_FILE_NAME): $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o
+	$(CC) $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o -o $(BUILD_DIR)/$(EXEC_FILE_NAME)
 
-$(BUILD_DIR)/$(MAIN).o: $(MAIN).cpp
+$(BUILD_DIR)/$(MAIN).o: $(MAIN).cpp Core.hpp Thread.hpp
 	$(CC) -c $(MAIN).cpp -o $(BUILD_DIR)/$(MAIN).o
 
-$(BUILD_DIR)/$(DEP_1).o: $(DEP_1).cpp $(DEP_1).hpp
-	$(CC) -c $(DEP_1).cpp -o $(BUILD_DIR)/$(DEP_1).o
+$(BUILD_DIR)/Core.o: Core.cpp Core.hpp Thread.hpp
+	$(CC) -c Core.cpp -o $(BUILD_DIR)/Core.o
+
+$(BUILD_DIR)/Thread.o: Thread.cpp Thread.hpp
+		$(CC) -c Thread.cpp -o $(BUILD_DIR)/Thread.o
+
 
 run: 
 	./$(BUILD_DIR)/$(EXEC_FILE_NAME)
