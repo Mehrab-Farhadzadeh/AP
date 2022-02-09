@@ -2,12 +2,17 @@
 #define PROCESS_HPP
 
 #include <vector>
+#include "Thread.hpp"
 
 class Process
 {
-private:
 public:
-    Process(/* args */);
+    Process(int _id, std::vector<Thread> _threads);
+    void run_cores();
+
+private:
+    int id;
+    std::vector<Thread> threads;
 };
 
 #endif
