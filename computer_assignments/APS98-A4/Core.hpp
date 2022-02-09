@@ -13,8 +13,7 @@ public:
 
 private:
     int id;
-    std::vector<Thread> queue_1;
-    std::vector<Thread> queue_2;
+    std::vector<Thread> queue;
 };
 
 #endif
