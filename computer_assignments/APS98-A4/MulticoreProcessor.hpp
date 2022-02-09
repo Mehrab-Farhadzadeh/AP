@@ -2,12 +2,19 @@
 #define MULTIPROCESSOR_HPP
 
 #include <vector>
+#include "Core.hpp"
 
 class MultiProcessor
 {
-private:
 public:
-    MultiProcessor(/* args */);
+    MultiProcessor(int _id_of_last_core = 0);
+    void add_a_core();
+    void add_a_process();
+    void run();
+
+private:
+    int id_of_last_core;
+    std::vector<Core> cores;
 };
 
 #endif
