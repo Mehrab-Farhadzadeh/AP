@@ -5,9 +5,13 @@
 
 class Thread
 {
-private:
 public:
-    Thread(/* args */);
+    Thread(int _id, int _demanded_time_slices);
+    void run();
+
+private:
+    int id;
+    int demanded_time_slices;
 };
 
 #endif
