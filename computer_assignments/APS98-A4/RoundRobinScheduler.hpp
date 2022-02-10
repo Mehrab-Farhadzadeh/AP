@@ -13,7 +13,7 @@ public:
     void finsih_tasks();
 
 private:
-    MultiProcessor multi_processor;
+    MultiCoreProcessor multi_core_processor;
     std::vector<Process> processes;
     static int id_of_last_process;
 };
