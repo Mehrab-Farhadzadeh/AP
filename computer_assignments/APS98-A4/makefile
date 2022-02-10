@@ -10,15 +10,31 @@ MAIN = main_APS98-A4
 
 all: $(BUILD_DIR)/$(EXEC_FILE_NAME)
 
-$(BUILD_DIR)/$(EXEC_FILE_NAME): $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o
-	$(CC) $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o -o $(BUILD_DIR)/$(EXEC_FILE_NAME)
+# a.out
+$(BUILD_DIR)/$(EXEC_FILE_NAME): $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/RoundRobinScheduler.o $(BUILD_DIR)/MulticoreProcessor.o $(BUILD_DIR)/Process.o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o
+	$(CC) $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/RoundRobinScheduler.o $(BUILD_DIR)/MulticoreProcessor.o $(BUILD_DIR)/Process.o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o -o $(BUILD_DIR)/$(EXEC_FILE_NAME)
 
+# main
 $(BUILD_DIR)/$(MAIN).o: $(MAIN).cpp Core.hpp Thread.hpp
 	$(CC) -c $(MAIN).cpp -o $(BUILD_DIR)/$(MAIN).o
 
-$(BUILD_DIR)/Core.o: Core.cpp Core.hpp Thread.hpp
+# RoundRobinScheduler
+$(BUILD_DIR)/RoundRobinScheduler.o: RoundRobinScheduler.cpp RoundRobinScheduler.hpp
+	$(CC) -c RoundRobinScheduler.cpp -o $(BUILD_DIR)/RoundRobinScheduler.o
+	
+# MulticoreProcessor
+$(BUILD_DIR)/MulticoreProcessor.o: MulticoreProcessor.cpp MulticoreProcessor.hpp Process.hpp Core.hpp
+	$(CC) -c MulticoreProcessor.cpp -o $(BUILD_DIR)/MulticoreProcessor.o
+
+# Process
+$(BUILD_DIR)/Process.o: Process.cpp Process.hpp Thread.hpp
+	$(CC) -c Process.cpp -o $(BUILD_DIR)/Process.o
+
+# Core
+$(BUILD_DIR)/Core.o: Core.cpp Core.hpp Thread.hpp Process.hpp
 	$(CC) -c Core.cpp -o $(BUILD_DIR)/Core.o
 
+# Thread
 $(BUILD_DIR)/Thread.o: Thread.cpp Thread.hpp
 		$(CC) -c Thread.cpp -o $(BUILD_DIR)/Thread.o
 
