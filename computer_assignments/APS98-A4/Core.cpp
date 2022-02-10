@@ -2,6 +2,7 @@
 #include <vector>
 #include "Core.hpp"
 #include "Thread.hpp"
+#include "Process.hpp"
 
 using namespace std;
 
@@ -15,11 +16,12 @@ void Core::add_a_thread(Thread thread)
     queue.insert(queue.begin(), thread);
 }
 
-void Core::run()
+void Core::run(std::vector<Process> &processes)
 {
     if (!queue.empty())
     {
         Thread thread = queue.back();
+        processes[thread.get_pid() - 1].run(thread.get_tid());
         queue.pop_back();
         thread.run();
         if (!thread.is_done())

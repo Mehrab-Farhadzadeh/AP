@@ -3,14 +3,17 @@
 
 #include <vector>
 #include "Thread.hpp"
+#include "Process.hpp"
 
 class Core
 {
 public:
     Core(int _id);
     void add_a_thread(Thread thread);
-    void run();
+    void run(std::vector<Process> &processes);
     void show_stat();
+    int get_id();
+    int get_size_of_queue();
 
 private:
     int id;
