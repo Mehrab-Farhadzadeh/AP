@@ -1,9 +1,17 @@
+#include <vector>
 #include "Process.hpp"
+#include "Thread.hpp"
 
 Process::Process(int _id)
 {
     id = _id;
 }
+
+void Process::add_a_thread(Thread thread)
+{
+    threads.push_back(thread);
+}
+
 void Process::run(int tid)
 {
     threads[tid].run();
@@ -13,6 +21,4 @@ void Process::run(int tid)
     }
 }
 
-void Process::add_a_thread(Thread thread)
-{
-}
+std::vector<Thread> Process::get_queue_of_threads() { return threads; }
