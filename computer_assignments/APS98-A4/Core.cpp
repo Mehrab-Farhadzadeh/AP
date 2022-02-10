@@ -40,3 +40,6 @@ void Core::show_stat()
         cout << "Number of time slots : " << queue[i].remaining_time_slots() << endl;
     }
 }
+
+int Core::get_id() { return id; }
+int Core::get_size_of_queue() { return (int)queue.size(); }
