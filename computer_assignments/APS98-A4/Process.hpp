@@ -7,8 +7,10 @@
 class Process
 {
 public:
-    Process(int _id, std::vector<Thread> _threads);
-    void run_cores();
+    Process(int _id);
+    void add_a_thread(Thread thread);
+    void run(int tid);
+    std::vector<Thread> get_queue_of_threads();
 
 private:
     int id;
