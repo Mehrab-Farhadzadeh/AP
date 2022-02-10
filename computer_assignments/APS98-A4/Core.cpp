@@ -41,5 +41,17 @@ void Core::show_stat()
     }
 }
 
+void Core::show_stat_in_run()
+{
+    if (!queue.empty())
+    {
+        cout << "Core number : " << id << endl;
+        for (int i = 0; i < (int)queue.size(); i++)
+        {
+            cout << "Process ID : " << queue[i].get_pid() << " - Thread ID : " << queue[i].get_tid() << endl;
+        }
+    }
+}
+
 int Core::get_id() { return id; }
 int Core::get_size_of_queue() { return (int)queue.size(); }
