@@ -23,12 +23,7 @@ int id_of_proper_core(std::vector<Core> cores)
     return -1;
 }
 
-MulticoreProcessor::MulticoreProcessor(int _id_of_last_core)
-{
-    id_of_last_core = _id_of_last_core;
-    cores.push_back(Core(++id_of_last_core));
-    cores.push_back(Core(++id_of_last_core));
-}
+MulticoreProcessor::MulticoreProcessor(int _id_of_last_core) { id_of_last_core = _id_of_last_core; }
 
 void MulticoreProcessor::add_a_core()
 {
