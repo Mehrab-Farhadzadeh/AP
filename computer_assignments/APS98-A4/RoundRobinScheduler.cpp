@@ -26,6 +26,7 @@ void RoundRobinScheduler::add_a_process()
     int p_index = id_of_last_process - 1;
     get_process_info_from_stdin(processes[p_index]);
     multicore_processor.add_a_process(processes[p_index]);
+    std::cout << "Process with pid = " << id_of_last_process << " added!" << std::endl;
 }
 
 void RoundRobinScheduler::add_a_core()
@@ -49,7 +50,7 @@ void RoundRobinScheduler::finsih_tasks()
     while (!processes.empty())
     {
         std::cout << "Time Slice : " << ++time_slices_counter << std::endl;
-        multicore_processor.run(processes);
+        run_cores();
         std::cout << ".\n.\n.\n";
     }
 }

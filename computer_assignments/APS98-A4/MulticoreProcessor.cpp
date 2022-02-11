@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include "MulticoreProcessor.hpp"
 #include "Process.hpp"
@@ -32,6 +33,7 @@ MulticoreProcessor::MulticoreProcessor(int _id_of_last_core)
 void MulticoreProcessor::add_a_core()
 {
     cores.push_back(Core(++id_of_last_core));
+    std::cout << "Core with core ID = " << id_of_last_core << " successfully added!" << std::endl;
 }
 
 void MulticoreProcessor::add_a_process(Process process)
