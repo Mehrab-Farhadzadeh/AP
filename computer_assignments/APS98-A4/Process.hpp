@@ -10,7 +10,9 @@ public:
     Process(int _id);
     void add_a_thread(Thread thread);
     void run(int tid);
-    std::vector<Thread> get_queue_of_threads();
+    bool is_done();
+    std::vector<Thread> get_threads();
+    int get_id();
 
 private:
     int id;
