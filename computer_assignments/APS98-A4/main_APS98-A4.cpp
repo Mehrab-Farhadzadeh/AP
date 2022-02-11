@@ -12,9 +12,6 @@ int main()
 
     RoundRobinScheduler round_robin_scheduler;
 
-    while (true)
-    {
-        interface(round_robin_scheduler);
-    }
+    interface(round_robin_scheduler);
 
 }
