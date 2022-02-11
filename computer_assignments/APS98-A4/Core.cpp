@@ -6,6 +6,17 @@
 
 using namespace std;
 
+int index_of_process(std::vector<Process> processes, int pid)
+{
+    int size = (int)processes.size();
+    for (int i = 0; i < size; i++)
+    {
+        if (processes[i].get_id() == pid)
+            return i;
+    }
+    return -1;
+}
+
 Core::Core(int _id)
 {
     id = _id;
@@ -21,12 +32,18 @@ void Core::run(std::vector<Process> &processes)
     if (!queue.empty())
     {
         Thread thread = queue.back();
-        processes[thread.get_pid() - 1].run(thread.get_tid());
-        queue.pop_back();
         thread.run();
+        queue.pop_back();
         if (!thread.is_done())
         {
             queue.insert(queue.begin(), thread);
+        }
+
+        int p_index = index_of_process(processes, thread.get_pid());
+        processes[p_index].run(thread.get_tid());
+        if (processes[p_index].is_done())
+        {
+            processes.erase(processes.begin() + p_index);
         }
     }
 }
