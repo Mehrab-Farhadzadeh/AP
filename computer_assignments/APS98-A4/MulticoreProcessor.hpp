@@ -7,10 +7,10 @@
 
 int id_of_proper_core(std::vector<Core> cores);
 
-class MultiCoreProcessor
+class MulticoreProcessor
 {
 public:
-    MultiCoreProcessor(int _id_of_last_core = 0);
+    MulticoreProcessor(int _id_of_last_core = 0);
     void add_a_core();
     void add_a_process(Process process);
     void run(std::vector<Process> &processes);

@@ -1,5 +1,7 @@
 #include <vector>
 #include "MulticoreProcessor.hpp"
+#include "Process.hpp"
+#include "Core.hpp"
 
 int id_of_proper_core(std::vector<Core> cores)
 {
@@ -20,25 +22,28 @@ int id_of_proper_core(std::vector<Core> cores)
     return -1;
 }
 
-MultiCoreProcessor::MultiCoreProcessor(int _id_of_last_core)
+MulticoreProcessor::MulticoreProcessor(int _id_of_last_core)
 {
+    id_of_last_core = _id_of_last_core;
+    cores.push_back(Core(++id_of_last_core));
+    cores.push_back(Core(++id_of_last_core));
 }
 
-void MultiCoreProcessor::add_a_core()
+void MulticoreProcessor::add_a_core()
 {
     cores.push_back(Core(++id_of_last_core));
 }
 
-void MultiCoreProcessor::add_a_process(Process process)
+void MulticoreProcessor::add_a_process(Process process)
 {
-    std::vector<Thread> threads = process.get_queue_of_threads();
+    std::vector<Thread> threads = process.get_threads();
     for (int i = 0; i < (int)threads.size(); i++)
     {
-        cores[id_of_proper_core(cores)].add_a_thread(threads[i]);
+        cores[id_of_proper_core(cores) - 1].add_a_thread(threads[i]);
     }
 }
 
-void MultiCoreProcessor::run(std::vector<Process> &processes)
+void MulticoreProcessor::run(std::vector<Process> &processes)
 {
     for (int i = 0; i < (int)cores.size(); i++)
     {
@@ -46,7 +51,7 @@ void MultiCoreProcessor::run(std::vector<Process> &processes)
     }
 }
 
-void MultiCoreProcessor::show_cores_stat()
+void MulticoreProcessor::show_cores_stat()
 {
     for (int i = 0; i < (int)cores.size(); i++)
     {
