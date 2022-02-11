@@ -1,9 +1,20 @@
+#include <iostream>
+#include <vector>
+#include "RoundRobinScheduler.hpp"
+#include "MulticoreProcessor.hpp"
+#include "Process.hpp"
 #include "Core.hpp"
 #include "Thread.hpp"
+#include "Interface.hpp"
 
 int main()
 {
-    Core core(1);
-    core.add_a_thread(Thread(1, 5));
-    core.add_a_thread(Thread(2, 3));
+
+    RoundRobinScheduler round_robin_scheduler;
+
+    while (true)
+    {
+        interface(round_robin_scheduler);
+    }
+
 }
