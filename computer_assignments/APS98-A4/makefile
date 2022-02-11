@@ -4,7 +4,7 @@ CC_FLAGS = -Wextra
 CC = $(CC_EXEC) $(CC_FLAGS)
 
 BUILD_DIR = build
-EXEC_FILE_NAME = a.out
+EXEC_FILE_NAME = Scheduler.out
 MAIN = main_APS98-A4
 
 
