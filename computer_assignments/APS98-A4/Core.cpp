@@ -44,6 +44,7 @@ void Core::run(std::vector<Process> &processes)
         {
             queue.insert(queue.begin(), thread);
         }
+        show_stat_in_run(thread, id);
 
         int p_index = index_of_process(processes, thread.get_pid());
         processes[p_index].run(thread.get_tid());
@@ -51,14 +52,13 @@ void Core::run(std::vector<Process> &processes)
         {
             processes.erase(processes.begin() + p_index);
         }
-        show_stat_in_run(thread, id);
     }
 }
 
 void Core::show_stat()
 {
     cout << "Core number : " << id << endl;
-    for (int i = 0; i < (int)queue.size(); i++)
+    for (int i = (int)queue.size() - 1; i >= 0 ; i--)
     {
         cout << "Process ID : " << queue[i].get_pid() << " - Thread ID : " << queue[i].get_tid() << endl;
         cout << "Number of time slots : " << queue[i].remaining_time_slots() << endl;
