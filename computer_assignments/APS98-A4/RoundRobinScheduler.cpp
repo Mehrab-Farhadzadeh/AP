@@ -21,11 +21,9 @@ RoundRobinScheduler::RoundRobinScheduler(int _id_of_last_process) { id_of_last_p
 
 void RoundRobinScheduler::add_a_process()
 {
-    static int counter = 0;
     processes.push_back(Process(++id_of_last_process));
-    int p_index = id_of_last_process - 1;
-    get_process_info_from_stdin(processes[p_index]);
-    multicore_processor.add_a_process(processes[p_index]);
+    get_process_info_from_stdin(processes.back());
+    multicore_processor.add_a_process(processes.back());
     std::cout << "Process with pid = " << id_of_last_process << " added!" << std::endl;
 }
 
@@ -51,6 +49,5 @@ void RoundRobinScheduler::finsih_tasks()
     {
         std::cout << "Time Slice : " << ++time_slices_counter << std::endl;
         run_cores();
-        std::cout << ".\n.\n.\n";
     }
 }
