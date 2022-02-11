@@ -9,13 +9,16 @@ class RoundRobinScheduler
 {
 public:
     RoundRobinScheduler(int _id_of_last_process = 0);
-    void add_a_process(Process process);
+    void add_a_process();
+    void add_a_core();
+    void show_cores_stat();
+    void run_cores();
     void finsih_tasks();
 
 private:
-    MultiCoreProcessor multi_core_processor;
+    MulticoreProcessor multicore_processor;
     std::vector<Process> processes;
-    static int id_of_last_process;
+    int id_of_last_process;
 };
 
 #endif
