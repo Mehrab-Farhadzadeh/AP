@@ -17,6 +17,12 @@ int index_of_process(std::vector<Process> processes, int pid)
     return -1;
 }
 
+void show_stat_in_run(Thread thread, int core_id)
+{
+    cout << "Core number : " << core_id << endl;
+    cout << "Process ID : " << thread.get_pid() << " - Thread ID : " << thread.get_tid() << endl;
+}
+
 Core::Core(int _id)
 {
     id = _id;
@@ -45,6 +51,7 @@ void Core::run(std::vector<Process> &processes)
         {
             processes.erase(processes.begin() + p_index);
         }
+        show_stat_in_run(thread, id);
     }
 }
 
@@ -55,18 +62,6 @@ void Core::show_stat()
     {
         cout << "Process ID : " << queue[i].get_pid() << " - Thread ID : " << queue[i].get_tid() << endl;
         cout << "Number of time slots : " << queue[i].remaining_time_slots() << endl;
-    }
-}
-
-void Core::show_stat_in_run()
-{
-    if (!queue.empty())
-    {
-        cout << "Core number : " << id << endl;
-        for (int i = 0; i < (int)queue.size(); i++)
-        {
-            cout << "Process ID : " << queue[i].get_pid() << " - Thread ID : " << queue[i].get_tid() << endl;
-        }
     }
 }
 

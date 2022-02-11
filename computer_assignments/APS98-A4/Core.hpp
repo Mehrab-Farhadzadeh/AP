@@ -5,6 +5,8 @@
 #include "Thread.hpp"
 #include "Process.hpp"
 
+void show_stat_in_run(Thread thread, int core_id);
+
 class Core
 {
 public:
@@ -12,7 +14,6 @@ public:
     void add_a_thread(Thread thread);
     void run(std::vector<Process> &processes);
     void show_stat();
-    void show_stat_in_run();
     int get_id();
     int get_size_of_queue();
 
