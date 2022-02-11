@@ -15,11 +15,11 @@ $(BUILD_DIR)/$(EXEC_FILE_NAME): $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/RoundRobinSc
 	$(CC) $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/RoundRobinScheduler.o $(BUILD_DIR)/MulticoreProcessor.o $(BUILD_DIR)/Process.o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o -o $(BUILD_DIR)/$(EXEC_FILE_NAME)
 
 # main
-$(BUILD_DIR)/$(MAIN).o: $(MAIN).cpp Core.hpp Thread.hpp
+$(BUILD_DIR)/$(MAIN).o: $(MAIN).cpp RoundRobinScheduler.hpp MulticoreProcessor.hpp Core.hpp Process.hpp Core.hpp Thread.hpp
 	$(CC) -c $(MAIN).cpp -o $(BUILD_DIR)/$(MAIN).o
 
 # RoundRobinScheduler
-$(BUILD_DIR)/RoundRobinScheduler.o: RoundRobinScheduler.cpp RoundRobinScheduler.hpp
+$(BUILD_DIR)/RoundRobinScheduler.o: RoundRobinScheduler.cpp RoundRobinScheduler.hpp MulticoreProcessor.hpp Process.hpp Thread.hpp
 	$(CC) -c RoundRobinScheduler.cpp -o $(BUILD_DIR)/RoundRobinScheduler.o
 	
 # MulticoreProcessor
