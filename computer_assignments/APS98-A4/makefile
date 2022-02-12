@@ -1,50 +1,105 @@
-CC_EXEC = g++ -std=c++11
-CC_FLAGS = -Wextra
-
+CC_EXEC = g++
+CC_FLAGS = -std=c++11 -Wextra -I $(INCLUDE_DIR)
 CC = $(CC_EXEC) $(CC_FLAGS)
 
 BUILD_DIR = build
-EXEC_FILE_NAME = Scheduler.out
-MAIN = main_APS98-A4
+SRC_DIR = src
+INCLUDE_DIR = include
+EXECUTABLE_FILE = Scheduler.out
+
+OBJECTS = \
+	$(BUILD_DIR)/Main.o \
+	$(BUILD_DIR)/RoundRobinScheduler.o \
+	$(BUILD_DIR)/MulticoreProcessor.o \
+	$(BUILD_DIR)/Process.o \
+	$(BUILD_DIR)/Core.o \
+	$(BUILD_DIR)/Thread.o \
+	$(BUILD_DIR)/Interface.o
+
+MainDependencies = \
+	$(SRC_DIR)/Main.cpp \
+	$(INCLUDE_DIR)/RoundRobinScheduler.hpp \
+	$(INCLUDE_DIR)/MulticoreProcessor.hpp \
+	$(INCLUDE_DIR)/Core.hpp \
+	$(INCLUDE_DIR)/Process.hpp \
+	$(INCLUDE_DIR)/Core.hpp \
+	$(INCLUDE_DIR)/Thread.hpp \
+	$(INCLUDE_DIR)/Interface.hpp \
+
+RoundRobinSchedulerDependencies = \
+	$(SRC_DIR)/RoundRobinScheduler.cpp \
+	$(INCLUDE_DIR)/RoundRobinScheduler.hpp \
+	$(INCLUDE_DIR)/MulticoreProcessor.hpp \
+	$(INCLUDE_DIR)/Process.hpp \
+	$(INCLUDE_DIR)/Thread.hpp \
+
+MulticoreProcessorDependencies = \
+	$(SRC_DIR)/MulticoreProcessor.cpp \
+	$(INCLUDE_DIR)/MulticoreProcessor.hpp \
+	$(INCLUDE_DIR)/Process.hpp \
+	$(INCLUDE_DIR)/Core.hpp \
+
+ProcessDependencies = \
+	$(SRC_DIR)/Process.cpp \
+	$(INCLUDE_DIR)/Process.hpp \
+	$(INCLUDE_DIR)/Thread.hpp \
+
+CoreDependencies = \
+	$(SRC_DIR)/Core.cpp \
+	$(INCLUDE_DIR)/Core.hpp \
+	$(INCLUDE_DIR)/Thread.hpp \
+	$(INCLUDE_DIR)/Process.hpp \
+
+ThreadDependencies = \
+	$(SRC_DIR)/Thread.cpp \
+	$(INCLUDE_DIR)/Thread.hpp \
+
+InterfaceDependencies = \
+	$(SRC_DIR)/Interface.cpp \
+	$(INCLUDE_DIR)/Interface.hpp \
+	$(INCLUDE_DIR)/RoundRobinScheduler.hpp \
 
 
-all: $(BUILD_DIR)/$(EXEC_FILE_NAME)
+all: $(BUILD_DIR) $(BUILD_DIR)/$(EXECUTABLE_FILE)
 
-# a.out
-$(BUILD_DIR)/$(EXEC_FILE_NAME): $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/RoundRobinScheduler.o $(BUILD_DIR)/MulticoreProcessor.o $(BUILD_DIR)/Process.o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o $(BUILD_DIR)/Interface.o
-	$(CC) $(BUILD_DIR)/$(MAIN).o $(BUILD_DIR)/RoundRobinScheduler.o $(BUILD_DIR)/MulticoreProcessor.o $(BUILD_DIR)/Process.o $(BUILD_DIR)/Core.o $(BUILD_DIR)/Thread.o $(BUILD_DIR)/Interface.o -o $(BUILD_DIR)/$(EXEC_FILE_NAME)
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
-# main
-$(BUILD_DIR)/$(MAIN).o: $(MAIN).cpp RoundRobinScheduler.hpp MulticoreProcessor.hpp Core.hpp Process.hpp Core.hpp Thread.hpp Interface.hpp
-	$(CC) -c $(MAIN).cpp -o $(BUILD_DIR)/$(MAIN).o
+# Scheduler.out
+$(BUILD_DIR)/$(EXECUTABLE_FILE): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(BUILD_DIR)/$(EXECUTABLE_FILE)
+
+# Main
+$(BUILD_DIR)/Main.o: $(MainDependencies)
+	$(CC) -c $(SRC_DIR)/Main.cpp -o $(BUILD_DIR)/Main.o
 
 # RoundRobinScheduler
-$(BUILD_DIR)/RoundRobinScheduler.o: RoundRobinScheduler.cpp RoundRobinScheduler.hpp MulticoreProcessor.hpp Process.hpp Thread.hpp
-	$(CC) -c RoundRobinScheduler.cpp -o $(BUILD_DIR)/RoundRobinScheduler.o
+$(BUILD_DIR)/RoundRobinScheduler.o: $(RoundRobinSchedulerDependencies)
+	$(CC) -c $(SRC_DIR)/RoundRobinScheduler.cpp -o $(BUILD_DIR)/RoundRobinScheduler.o
 	
 # MulticoreProcessor
-$(BUILD_DIR)/MulticoreProcessor.o: MulticoreProcessor.cpp MulticoreProcessor.hpp Process.hpp Core.hpp
-	$(CC) -c MulticoreProcessor.cpp -o $(BUILD_DIR)/MulticoreProcessor.o
+$(BUILD_DIR)/MulticoreProcessor.o: $(MulticoreProcessorDependencies)
+	$(CC) -c $(SRC_DIR)/MulticoreProcessor.cpp -o $(BUILD_DIR)/MulticoreProcessor.o
 
 # Process
-$(BUILD_DIR)/Process.o: Process.cpp Process.hpp Thread.hpp
-	$(CC) -c Process.cpp -o $(BUILD_DIR)/Process.o
+$(BUILD_DIR)/Process.o: $(ProcessDependencies)
+	$(CC) -c $(SRC_DIR)/Process.cpp -o $(BUILD_DIR)/Process.o
 
 # Core
-$(BUILD_DIR)/Core.o: Core.cpp Core.hpp Thread.hpp Process.hpp
-	$(CC) -c Core.cpp -o $(BUILD_DIR)/Core.o
+$(BUILD_DIR)/Core.o: $(CoreDependencies)
+	$(CC) -c $(SRC_DIR)/Core.cpp -o $(BUILD_DIR)/Core.o
 
 # Thread
-$(BUILD_DIR)/Thread.o: Thread.cpp Thread.hpp
-		$(CC) -c Thread.cpp -o $(BUILD_DIR)/Thread.o
+$(BUILD_DIR)/Thread.o: $(ThreadDependencies)
+		$(CC) -c $(SRC_DIR)/Thread.cpp -o $(BUILD_DIR)/Thread.o
 
 # Interface
-$(BUILD_DIR)/Interface.o: Interface.cpp Interface.hpp RoundRobinScheduler.hpp
-		$(CC) -c Interface.cpp -o $(BUILD_DIR)/Interface.o
+$(BUILD_DIR)/Interface.o: $(ThreadDependencies)
+		$(CC) -c $(SRC_DIR)/Interface.cpp -o $(BUILD_DIR)/Interface.o
 
 		
 run: 
-	./$(BUILD_DIR)/$(EXEC_FILE_NAME)
+	./$(BUILD_DIR)/$(EXECUTABLE_FILE)
 
 clean:
 	rm -rf $(BUILD_DIR)/ && mkdir -p $(BUILD_DIR)
