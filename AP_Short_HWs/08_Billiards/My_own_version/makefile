@@ -24,6 +24,7 @@ BallDependencies = \
 TableDependencies = \
 	$(SRC_DIR)/Table.cpp \
 	$(INCLUDE_DIR)/Table.hpp \
+	$(INCLUDE_DIR)/Ball.hpp \
 
 
 all: $(BUILD_DIR) $(BUILD_DIR)/$(EXECUTABLE_FILE)
