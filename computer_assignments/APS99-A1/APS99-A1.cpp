@@ -2,7 +2,10 @@
 #include <vector>
 #include <string>
 #include <fstream>
+
 using namespace std;
+
+#define MAX_RANDOM 11
 
 struct RequestInfos
 {
@@ -174,7 +177,7 @@ int sum_chars_ascii_code_of_string(string str)
 
 int encrypt_char_complicated(char ch_to_encrypt)
 {
-  int encrypted_ch = (rand() % 11) + (int)ch_to_encrypt;
+  int encrypted_ch = (rand() % MAX_RANDOM) + (int)ch_to_encrypt;
   return encrypted_ch;
 }
 
@@ -236,6 +239,6 @@ void complicated_decrypt(string key)
 
 char decrypt_code_complicated(int code_to_decrypt)
 {
-  char decrypted_code = (char)(code_to_decrypt - (rand() % 11));
+  char decrypted_code = (char)(code_to_decrypt - (rand() % MAX_RANDOM));
   return decrypted_code;
 }
