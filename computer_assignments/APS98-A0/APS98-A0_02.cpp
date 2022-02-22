@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
+
 using namespace std;
+
+#define ASCII_CODE_OF_ZERO 48
 
 int ch_to_digit(char ch);
 bool is_charkheshi(string num_str);
@@ -23,7 +26,7 @@ int main()
 
 int ch_to_digit(char ch)
 {
-    return (int)ch - 48;
+    return (int)ch - ASCII_CODE_OF_ZERO;
 }
 
 bool is_charkheshi(string num_str)
