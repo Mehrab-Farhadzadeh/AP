@@ -4,42 +4,51 @@
 #include <fstream>
 using namespace std;
 
-void get_request_info(string &mode, string &approach, string &key);
+struct RequestInfo
+{
+  string mode;
+  string approach;
+  string key;
+};
+
+typedef struct RequestInfo RequestInfo;
+
+void get_request_info(RequestInfo &request_info);
 void get_files_paths(string &inFilePath, string &outFilePath);
 char get_char_from_file(ifstream &inFile);
 void put_char_into_file(ofstream &outFile, char decrypted_code);
 int get_code_from_file(ifstream &inFile);
 void put_code_into_file(ofstream &outFile, char ch);
 
-void encryption(string approach, string key);
-void simple_encryption(string key);
+void encrypt(string approach, string key);
+void simple_encrypt(string key);
 int encrypt_char_simple(string key, char ch_to_encrypt, int ch_pos);
-void complicated_encryption(string key);
-int sum_of_strings_chars(string str);
+void complicated_encrypt(string key);
+int sum_chars_ascii_code_of_string(string str);
 int encrypt_char_complicated(char ch_to_encrypt);
 
-void decryption(string approach, string key);
-void simple_decryption(string key);
+void decrypt(string approach, string key);
+void simple_decrypt(string key);
 char decrypt_code_simple(string key, int code_to_decrypt, int code_pos);
-void complicated_decryption(string key);
+void complicated_decrypt(string key);
 char decrypt_code_complicated(int code_to_decrypt);
 
 int main()
 {
-  string mode, approach, key;
-  get_request_info(mode, approach, key);
+  RequestInfo request_info;
+  get_request_info(request_info);
 
-  if (mode == "encrypt")
-    encryption(approach, key);
+  if (request_info.mode == "encrypt")
+    encrypt(request_info.approach, request_info.key);
   else
-    decryption(approach, key);
+    decrypt(request_info.approach, request_info.key);
 
   return 0;
 }
 
-void get_request_info(string &mode, string &approach, string &key)
+void get_request_info(RequestInfo &request_info)
 {
-  cin >> mode >> approach >> key;
+  cin >> request_info.mode >> request_info.approach >> request_info.key;
 }
 
 void get_files_paths(string &inFilePath, string &outFilePath)
@@ -67,15 +76,15 @@ void put_code_into_file(ofstream &outFile, int code)
   outFile << code << endl;
 }
 
-void encryption(string approach, string key)
+void encrypt(string approach, string key)
 {
   if (approach == "simple")
-    simple_encryption(key);
+    simple_encrypt(key);
   else
-    complicated_encryption(key);
+    complicated_encrypt(key);
 }
 
-void simple_encryption(string key)
+void simple_encrypt(string key)
 {
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
@@ -107,7 +116,7 @@ int encrypt_char_simple(string key, char ch_to_encrypt, int ch_pos)
   return encrypted_ch;
 }
 
-void complicated_encryption(string key)
+void complicated_encrypt(string key)
 {
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
@@ -119,8 +128,8 @@ void complicated_encryption(string key)
     cout << "Unable to open file(s)" << endl;
 
   int ch_pos = 0;
-  int sum_of_keys_chars = sum_of_strings_chars(key);
-  srand(sum_of_keys_chars);
+  int sum_of_chars_ascii_code_of_key = sum_chars_ascii_code_of_string(key);
+  srand(sum_of_chars_ascii_code_of_key);
   while (true)
   {
     char ch_to_encrypt = get_char_from_file(inFile);
@@ -135,7 +144,7 @@ void complicated_encryption(string key)
   outFile.close();
 }
 
-int sum_of_strings_chars(string str)
+int sum_chars_ascii_code_of_string(string str)
 {
   int sum = 0;
   for (int i = 0; str[i]; i++)
@@ -149,15 +158,15 @@ int encrypt_char_complicated(char ch_to_encrypt)
   return encrypted_ch;
 }
 
-void decryption(string approach, string key)
+void decrypt(string approach, string key)
 {
   if (approach == "simple")
-    simple_decryption(key);
+    simple_decrypt(key);
   else
-    complicated_decryption(key);
+    complicated_decrypt(key);
 }
 
-void simple_decryption(string key)
+void simple_decrypt(string key)
 {
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
@@ -189,7 +198,7 @@ char decrypt_code_simple(string key, int code_to_decrypt, int code_pos)
   return decrypted_code;
 }
 
-void complicated_decryption(string key)
+void complicated_decrypt(string key)
 {
   string inFilePath, outFilePath;
   get_files_paths(inFilePath, outFilePath);
@@ -201,8 +210,8 @@ void complicated_decryption(string key)
     cout << "Unable to open file(s)" << endl;
 
   int code_pos = 0;
-  int sum_of_keys_chars = sum_of_strings_chars(key);
-  srand(sum_of_keys_chars);
+  int sum_of_chars_ascii_code_of_key = sum_chars_ascii_code_of_string(key);
+  srand(sum_of_chars_ascii_code_of_key);
   while (true)
   {
     int code_to_decrypt = get_code_from_file(inFile);
