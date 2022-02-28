@@ -1,6 +1,9 @@
 #include <iostream>
+#include <string>
 #include "date.h"
 using namespace std;
+
+argument_invalid::argument_invalid(string _message) : message(_message){}
 
 bool is_leap_year(int y) {
     int r = y % 33;
@@ -15,12 +18,12 @@ int days_of_month(int m, int y) {
     else if (m == 12)
         return is_leap_year(y) ? 30 : 29;
     else
-        throw runtime_error("Invalid month number"); // throwing invalid_argument is a better choice, but we want to have a single catch clause in this example
+        throw argument_invalid("Invalid month number"); // throwing invalid_argument is a better choice, but we want to have a single catch clause in this example
 }
 
 Date::Date(int d, int m, int y) {
     if (y < 0 || m < 1 || m > 12 || d < 1 || d > days_of_month(m, y))
-        throw runtime_error("Invalid arguments to Date constructor"); // throwing invalid_argument is a better choice, but we want to have a single catch clause in this example
+        throw argument_invalid("Invalid arguments to Date constructor"); // throwing invalid_argument is a better choice, but we want to have a single catch clause in this example
 
     day = d;
     month = m;

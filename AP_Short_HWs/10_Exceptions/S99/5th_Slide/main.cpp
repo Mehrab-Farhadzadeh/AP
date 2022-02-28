@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 void do_some_processing(vector<Student> &v)
 {
-    for (int i = 0; i < v.size(); i++)
+    for (int i = 0; i < (int)v.size(); i++)
     {
         v[i].print();
         cout << endl;
@@ -60,8 +60,20 @@ void read_student_info(char *filename, vector<Student> &v)
             Student s = read_student(input);
             v.push_back(s);
         }
-        catch (runtime_error &ex)
+        // catch (runtime_error &ex)
+        // {
+        //     cout << "runtime_error" << endl;
+        //     input.clear();
+        //     string to_be_ignored;
+        //     getline(input, to_be_ignored);
+        // }
+        // catch (argument_invalid &aex)
+        // {
+        //     cout << "arg_invalid" << endl;
+        // }
+        catch (...)
         {
+            cout << "... handler" << endl;
             input.clear();
             string to_be_ignored;
             getline(input, to_be_ignored);

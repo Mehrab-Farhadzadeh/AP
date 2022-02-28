@@ -4,6 +4,15 @@
 #include <fstream>
 using namespace std;
 
+class argument_invalid
+{
+public:
+    argument_invalid(string _message);
+
+private:
+    string message;
+};
+
 class Date
 {
 public:

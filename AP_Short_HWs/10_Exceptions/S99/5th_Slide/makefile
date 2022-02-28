@@ -36,8 +36,10 @@ $(BUILD_DIR)/date.o: $(dateDependencies)
 	$(CC) -c date.cpp -o $(BUILD_DIR)/date.o
 
 		
+
+ARG_1 = students.txt
 run: 
-	./$(BUILD_DIR)/$(EXECUTABLE_FILE)
+	./$(BUILD_DIR)/$(EXECUTABLE_FILE) $(ARG_1)
 
 clean:
 	rm -rf $(BUILD_DIR)/ && mkdir -p $(BUILD_DIR)
