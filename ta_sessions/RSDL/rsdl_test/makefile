@@ -20,9 +20,16 @@ EXECUTABLE_FILE = rsdl_test.out
 OBJECTS = \
 	$(BUILD_DIR)/main.o \
 	$(BUILD_DIR)/rsdl.o \
+	$(BUILD_DIR)/rect.o \
 
 mainDependencies = \
 	$(SRC_DIR)/main.cpp \
+	$(INCLUDE_DIR)/rect.hpp \
+	$(INCLUDE_DIR)/rsdl.hpp \
+
+rectDependencies = \
+	$(SRC_DIR)/rect.cpp \
+	$(INCLUDE_DIR)/rect.hpp \
 	$(INCLUDE_DIR)/rsdl.hpp \
 
 rsdlDependencies = \
@@ -46,6 +53,10 @@ $(BUILD_DIR)/$(EXECUTABLE_FILE): $(OBJECTS)
 # main
 $(BUILD_DIR)/main.o: $(mainDependencies)
 	$(CC) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
+
+# rect
+$(BUILD_DIR)/rect.o: $(rectDependencies)
+	$(CC) -c $(SRC_DIR)/rect.cpp -o $(BUILD_DIR)/rect.o
 
 # rsdl
 $(BUILD_DIR)/rsdl.o: $(rsdlDependencies)
