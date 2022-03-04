@@ -4,6 +4,6 @@
 #include "../hdr/rsdl.hpp"
 #include "../hdr/ball.hpp"
 
-void draw(Window &window, Ball &ball);
+void draw(Window &window, balls_t &balls, const int DELAY);
 
 #endif

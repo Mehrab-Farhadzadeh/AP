@@ -4,7 +4,7 @@ using namespace std;
 #include "../hdr/update.hpp"
 #include "../hdr/ball.hpp"
 
-void update(Window &window, Ball &ball)
+void update(Window &window, balls_t &balls, const int DELAY)
 {
     while (window.has_pending_event())
     {
@@ -12,7 +12,7 @@ void update(Window &window, Ball &ball)
         switch (event.get_type())
         {
         case Event::MMOTION:
-            ball.update(event.get_mouse_position());
+            balls[0].update(event.get_mouse_position());
             break;
         case Event::QUIT:
             exit(0);
@@ -20,4 +20,5 @@ void update(Window &window, Ball &ball)
             break;
         }
     }
+    balls[1].update(DELAY);
 }

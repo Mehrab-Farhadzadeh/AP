@@ -7,14 +7,21 @@
 
 using namespace std;
 
+const int DELAY = 30;
+const int WIDTH = 900;
+const int HEIGHT = 600;
+
 int main()
 {
-    Window window(480, 360, "Warm-up");
-    Ball ball(Point(0, 0), Velociy(0, 0));
+    Window window(WIDTH, HEIGHT, "Warm-up");
+    balls_t balls;
+    balls.push_back(Ball(Point(0, 0), Velociy(0, 0), 15, RGB(220, 220, 0)));
+    balls.push_back(Ball(Point(100, 200), Velociy(34, 0), 30, RGB(0, 220, 220)));
+
     while (true)
     {
-        update(window, ball);
-        draw(window, ball);
-        delay(1000);
+        update(window, balls, DELAY);
+        draw(window, balls, DELAY);
+        delay(DELAY);
     }
 }
