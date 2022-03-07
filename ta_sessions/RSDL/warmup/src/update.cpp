@@ -1,18 +1,23 @@
 #include <iostream>
-using namespace std;
 
 #include "../hdr/update.hpp"
 #include "../hdr/ball.hpp"
 
+using namespace std;
+
 void update(Window &window, balls_t &balls, const int DELAY)
 {
+    static int counter = 0;
+    static Point mouse_position;
+    cout << mouse_position.x << "," << mouse_position.y << "  " << counter++ << endl;
+
     while (window.has_pending_event())
     {
         Event event = window.poll_for_event();
         switch (event.get_type())
         {
         case Event::MMOTION:
-            balls[0].update(event.get_mouse_position());
+            mouse_position = event.get_mouse_position();
             break;
         case Event::QUIT:
             exit(0);
@@ -20,5 +25,6 @@ void update(Window &window, balls_t &balls, const int DELAY)
             break;
         }
     }
+    balls[0].update(DELAY, mouse_position);
     balls[1].update(DELAY);
 }

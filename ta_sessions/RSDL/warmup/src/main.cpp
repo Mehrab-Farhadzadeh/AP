@@ -15,8 +15,8 @@ int main()
 {
     Window window(WIDTH, HEIGHT, "Warm-up");
     balls_t balls;
-    balls.push_back(Ball(Point(0, 0), Velociy(0, 0), 15, RGB(220, 220, 0)));
-    balls.push_back(Ball(Point(100, 200), Velociy(34, 0), 30, RGB(0, 220, 220)));
+    balls.push_back(Ball(Point(200, 300), Velociy(0, 0), 200, 15, RGB(220, 220, 0)));
+    balls.push_back(Ball(Point(100, 200), Velociy(34, 0), 0, 30, RGB(0, 220, 220))); // To do: Matching speed and velocity
 
     while (true)
     {
